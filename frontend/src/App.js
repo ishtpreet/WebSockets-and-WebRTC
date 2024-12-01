@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 
-
+import VideoCard from './components/VideoCard';
 import SideMenu from './components/SideMenu';
 import './App.css';
 import { Button } from '@mui/material';
@@ -70,12 +70,14 @@ const drawerWidth = 240;
         component="main"
         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
       >
-        <h1>Content &nbsp; {connected && <ConnectWithoutContactIcon />}</h1>
+        <h1>WebSocket &nbsp; {connected && <ConnectWithoutContactIcon />}</h1>
         <p>{msg}</p>
         
        {!connected ? <Button variant="contained" color="primary" onClick={handleConnect}>Connect to WS</Button> : <Button variant="contained" color="secondary" onClick={handleDisconnect}>Disconnect</Button>}
        
       </Box>
+      <hr />
+      < VideoCard />
     </Box>
   );
 }
