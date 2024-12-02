@@ -1,146 +1,197 @@
 import { useEffect, useRef, useState } from 'react';
-import { Button } from '@mui/material';
+import { Button, Typography, Box, Grid, Paper } from '@mui/material';
 
-const servers = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] }; // STUN server for NAT traversal
+const servers = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
 export default function VideoCard() {
-  const [signalingSocket, setSignalingSocket] = useState(null); // WebSocket signaling connection
-  const [peerConnection, setPeerConnection] = useState(null); // RTCPeerConnection instance
-  const [localStream, setLocalStream] = useState(null); // Local media stream
-  const [remoteStream, setRemoteStream] = useState(null); // Remote media stream received from peer
+  const signalingSocketRef = useRef(null);
+  const peerConnectionRef = useRef(null);
+  const [localStream, setLocalStream] = useState(null);
+  const [remoteStream, setRemoteStream] = useState(null);
 
-  const localVideoRef = useRef(null); // Ref to local video element
-  const remoteVideoRef = useRef(null); // Ref to remote video element
+  const localVideoRef = useRef(null);
+  const remoteVideoRef = useRef(null);
+
+  const SOCKET_URL = 'ws://localhost:3001';
 
   useEffect(() => {
-    // 1. Establish WebSocket connection
-    const socket = new WebSocket('wss://fd28-2600-1011-a18f-181d-d43b-6200-e46f-edb0.ngrok-free.app'); // Update with correct backend URL
-    const startTime = performance.now();
-
-    setSignalingSocket(socket); // Store WebSocket instance
+    const socket = new WebSocket(SOCKET_URL);
+    signalingSocketRef.current = socket;
 
     socket.onopen = () => {
-      // 2. WebSocket connected
-      const endTime = performance.now();
-      console.log(`2. WebSocket connection opened in ${endTime - startTime} ms`);
+      console.log('WebSocket connected');
     };
 
-    socket.onclose = () => {
-      console.log('WebSocket closed. Attempting to reconnect...');
-      setTimeout(() => {
-        const newSocket = new WebSocket('wss://fd28-2600-1011-a18f-181d-d43b-6200-e46f-edb0.ngrok-free.app');
-        setSignalingSocket(newSocket);
-      }, 3000); // Retry after 3 seconds
-    };
-    
     socket.onmessage = async (event) => {
-      // 6. Handle incoming messages via WebSocket
-      console.log('6. Received message:', event.data);
       let messageData;
-
-      // Check if the data is a Blob and convert it to text
       if (event.data instanceof Blob) {
-        messageData = await event.data.text(); // Convert Blob to string
+        messageData = await event.data.text();
       } else {
-        messageData = event.data; // Assume it's already a string
+        messageData = event.data;
       }
 
       try {
-        const data = JSON.parse(messageData); // Parse JSON if possible
-        // console.log('Received:', data);
+        const data = JSON.parse(messageData);
+        console.log('Received:', data);
 
         if (data.type === 'offer') {
-          // 7. Handle received SDP offer
-          console.log('7. Received SDP offer:', data);
-          await peerConnection.setRemoteDescription(new RTCSessionDescription(data)); // Set remote description
-          const answer = await peerConnection.createAnswer(); // Create SDP answer
-          await peerConnection.setLocalDescription(answer); // Set local description
-          socket.send(JSON.stringify(peerConnection.localDescription)); // Send SDP answer
+          if (!peerConnectionRef.current) {
+            await initializePeerConnection();
+          }
+          await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(data));
+          const answer = await peerConnectionRef.current.createAnswer();
+          await peerConnectionRef.current.setLocalDescription(answer);
+          signalingSocketRef.current.send(JSON.stringify(peerConnectionRef.current.localDescription));
         } else if (data.type === 'answer') {
-          // 8. Handle received SDP answer
-          console.log('8. Received SDP answer:', data);
-          await peerConnection.setRemoteDescription(new RTCSessionDescription(data));
+          if (!peerConnectionRef.current) {
+            console.error('PeerConnection is not established yet.');
+            return;
+          }
+          await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(data));
         } else if (data.type === 'candidate') {
-          // 9. Handle received ICE candidate
-          console.log('9. Received ICE candidate:', data);
-          await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+          if (!peerConnectionRef.current) {
+            console.error('PeerConnection is not established yet.');
+            return;
+          }
+          await peerConnectionRef.current.addIceCandidate(new RTCIceCandidate(data.candidate));
         }
       } catch (error) {
         console.error('Error parsing WebSocket message:', error);
       }
     };
 
+    socket.onclose = () => {
+      console.log('WebSocket closed');
+    };
+
+    socket.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
     return () => {
-      // Cleanup on component unmount
-      console.log('11. WebSocket disconnected');
-      socket.close(); // 11. Close WebSocket connection
+      socket.close();
     };
-  }, []); // Effect runs whenever peerConnection changes
+  }, []);
 
-  const startConnection = async () => {
-    // 3. Capture local media
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true }); // Read camera and microphone
-    setLocalStream(stream);
-    localVideoRef.current.srcObject = stream; // Display local video
-    console.log('3. Displaying Local stream:', stream);
+  const initializePeerConnection = async () => {
+    if (!peerConnectionRef.current) {
+      peerConnectionRef.current = new RTCPeerConnection(servers);
 
-    const pc = new RTCPeerConnection(servers); // Create RTCPeerConnection
-    setPeerConnection(pc);
+      peerConnectionRef.current.onicecandidate = (event) => {
+        if (event.candidate && signalingSocketRef.current.readyState === WebSocket.OPEN) {
+          signalingSocketRef.current.send(JSON.stringify({ type: 'candidate', candidate: event.candidate }));
+        }
+      };
 
-    stream.getTracks().forEach((track) => pc.addTrack(track, stream)); // Add local A/V tracks to peer connection
+      const remoteStream = new MediaStream();
+      setRemoteStream(remoteStream);
+      remoteVideoRef.current.srcObject = remoteStream;
 
-    const remoteStream = new MediaStream();
-    setRemoteStream(remoteStream);
-    remoteVideoRef.current.srcObject = remoteStream; // Prepare to display remote video
+      peerConnectionRef.current.ontrack = (event) => {
+        event.streams[0].getTracks().forEach((track) => remoteStream.addTrack(track));
+      };
 
-    pc.ontrack = (event) => {
-      // 10. Handle remote media streams
-      console.log('10. Received remote stream:', event.streams[0]);
-      event.streams[0].getTracks().forEach((track) => remoteStream.addTrack(track)); // Add remote tracks to remote stream
-    };
+      peerConnectionRef.current.onconnectionstatechange = () => {
+        if (
+          peerConnectionRef.current.connectionState === 'disconnected' ||
+          peerConnectionRef.current.connectionState === 'failed' ||
+          peerConnectionRef.current.connectionState === 'closed'
+        ) {
+          console.log('Peer connection closed');
+          signalingSocketRef.current.close();
+        }
+      };
 
-    pc.onicecandidate = (event) => {
-      // 5. Send ICE candidates via WebSocket
-      if (event.candidate) {
-        console.log('5. Sending ICE candidate:', event.candidate);
-        signalingSocket.send(JSON.stringify({ type: 'candidate', candidate: event.candidate }));
+      if (localStream) {
+        localStream.getTracks().forEach((track) => peerConnectionRef.current.addTrack(track, localStream));
       }
-    };
+    }
   };
 
-  const createOffer = async () => {
-    // 4. Create SDP offer
-    console.log('4. Creating SDP offer');
-    if (!signalingSocket || signalingSocket.readyState !== WebSocket.OPEN) {
-      console.error('WebSocket is not open. Cannot send the offer.');
-      alert('WebSocket connection is not ready. Please wait and try again.');
+  const startConnection = async () => {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert('Your browser does not support WebRTC.');
       return;
     }
 
     try {
-      const offer = await peerConnection.createOffer(); // Create SDP offer
-      await peerConnection.setLocalDescription(offer); // Set local description
-      signalingSocket.send(JSON.stringify(peerConnection.localDescription)); // Send SDP offer
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      setLocalStream(stream);
+      localVideoRef.current.srcObject = stream;
+
+      await initializePeerConnection();
+
+      stream.getTracks().forEach((track) => peerConnectionRef.current.addTrack(track, stream));
     } catch (error) {
-      console.error('Error creating offer:', error);
+      console.error('Error accessing media devices:', error);
+      alert('Could not access your camera/microphone. Please check permissions.');
+    }
+  };
+
+  const createOffer = async () => {
+    if (
+      peerConnectionRef.current &&
+      signalingSocketRef.current &&
+      signalingSocketRef.current.readyState === WebSocket.OPEN
+    ) {
+      try {
+        const offer = await peerConnectionRef.current.createOffer();
+        await peerConnectionRef.current.setLocalDescription(offer);
+        signalingSocketRef.current.send(JSON.stringify(peerConnectionRef.current.localDescription));
+      } catch (error) {
+        console.error('Error creating offer:', error);
+      }
+    } else {
+      alert('WebSocket connection is not open or peer connection is not established.');
     }
   };
 
   return (
-    <div>
-      <h1>WebRTC</h1>
-      {/* Local video feed */}
-      <video ref={localVideoRef} autoPlay playsInline style={{ width: '300px' }}></video>
-      {/* Remote video feed */}
-      <video ref={remoteVideoRef} autoPlay playsInline style={{ width: '300px' }}></video>
-      <br />
-      <Button variant="contained" color="primary" onClick={startConnection}>
-        Start Connection
-      </Button>
-      <br /><br />
-      <Button variant="contained" color="primary" onClick={createOffer}>
-        Call
-      </Button>
-    </div>
+    <Box sx={{ padding: 4 }}>
+      <Paper elevation={3} sx={{ padding: 4, maxWidth: '800px', margin: 'auto' }}>
+        <Typography variant="h4" gutterBottom align="center">
+          WebRTC Tutorial
+        </Typography>
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          <Grid item xs={12} md={6}>
+            <video
+              ref={localVideoRef}
+              autoPlay
+              playsInline
+              style={{ width: '100%', borderRadius: '8px', border: '2px solid #1976d2' }}
+            />
+            <Typography variant="subtitle1" align="center" sx={{ marginTop: 1 }}>
+              Local Video
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <video
+              ref={remoteVideoRef}
+              autoPlay
+              playsInline
+              style={{ width: '100%', borderRadius: '8px', border: '2px solid #1976d2' }}
+            />
+            <Typography variant="subtitle1" align="center" sx={{ marginTop: 1 }}>
+              Remote Video
+            </Typography>
+          </Grid>
+        </Grid>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: 2,
+            marginTop: 4,
+          }}
+        >
+          <Button variant="contained" color="primary" onClick={startConnection}>
+            Start Connection
+          </Button>
+          <Button variant="contained" color="secondary" onClick={createOffer}>
+            Call
+          </Button>
+        </Box>
+      </Paper>
+    </Box>
   );
 }
