@@ -13,6 +13,11 @@ export default function VideoCard() {
   const remoteVideoRef = useRef(null);
 
   const SOCKET_URL = 'ws://localhost:3002';
+  const [statusMessages, setStatusMessages] = useState([]);
+
+  const addStatusMessage = (message) => {
+    setStatusMessages((prevMessages) => [...prevMessages, message]);
+  };
 
   useEffect(() => {
     const socket = new WebSocket(SOCKET_URL);
@@ -20,6 +25,7 @@ export default function VideoCard() {
 
     socket.onopen = () => {
       console.log('WebSocket connected');
+      addStatusMessage('WebSocket connected');
     };
 
     socket.onmessage = async (event) => {
@@ -42,18 +48,21 @@ export default function VideoCard() {
           const answer = await peerConnectionRef.current.createAnswer();
           await peerConnectionRef.current.setLocalDescription(answer);
           signalingSocketRef.current.send(JSON.stringify(peerConnectionRef.current.localDescription));
+          addStatusMessage('SDP offer received and answer sent.');
         } else if (data.type === 'answer') {
           if (!peerConnectionRef.current) {
             console.error('PeerConnection is not established yet.');
             return;
           }
           await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(data));
+          addStatusMessage('SDP answer received.');
         } else if (data.type === 'candidate') {
           if (!peerConnectionRef.current) {
             console.error('PeerConnection is not established yet.');
             return;
           }
           await peerConnectionRef.current.addIceCandidate(new RTCIceCandidate(data.candidate));
+          addStatusMessage('ICE candidate received and added.');
         }
       } catch (error) {
         console.error('Error parsing WebSocket message:', error);
@@ -62,10 +71,12 @@ export default function VideoCard() {
 
     socket.onclose = () => {
       console.log('WebSocket closed');
+      addStatusMessage('WebSocket connection closed.');
     };
 
     socket.onerror = (error) => {
       console.error('WebSocket error:', error);
+      // addStatusMessage('WebSocket error.');
     };
 
     return () => {
@@ -80,6 +91,7 @@ export default function VideoCard() {
       peerConnectionRef.current.onicecandidate = (event) => {
         if (event.candidate && signalingSocketRef.current.readyState === WebSocket.OPEN) {
           signalingSocketRef.current.send(JSON.stringify({ type: 'candidate', candidate: event.candidate }));
+          addStatusMessage('ICE candidate sent.');
         }
       };
 
@@ -99,11 +111,13 @@ export default function VideoCard() {
         ) {
           console.log('Peer connection closed');
           signalingSocketRef.current.close();
+          addStatusMessage('Peer connection closed.');
         }
       };
 
       if (localStream) {
         localStream.getTracks().forEach((track) => peerConnectionRef.current.addTrack(track, localStream));
+        addStatusMessage('Local tracks added to peer connection.');
       }
     }
   };
@@ -118,13 +132,16 @@ export default function VideoCard() {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       setLocalStream(stream);
       localVideoRef.current.srcObject = stream;
+      addStatusMessage('Local media stream started.');
 
       await initializePeerConnection();
 
       stream.getTracks().forEach((track) => peerConnectionRef.current.addTrack(track, stream));
+      addStatusMessage('Local tracks added to peer connection.');
     } catch (error) {
       console.error('Error accessing media devices:', error);
       alert('Could not access your camera/microphone. Please check permissions.');
+      addStatusMessage('Error accessing media devices.');
     }
   };
 
@@ -138,8 +155,10 @@ export default function VideoCard() {
         const offer = await peerConnectionRef.current.createOffer();
         await peerConnectionRef.current.setLocalDescription(offer);
         signalingSocketRef.current.send(JSON.stringify(peerConnectionRef.current.localDescription));
+        addStatusMessage('SDP offer created and sent.');
       } catch (error) {
         console.error('Error creating offer:', error);
+        addStatusMessage('Error creating SDP offer.');
       }
     } else {
       alert('WebSocket connection is not open or peer connection is not established.');
@@ -187,6 +206,18 @@ export default function VideoCard() {
           <Button variant="contained" color="success" onClick={createOffer}>
             Call
           </Button>
+        </Box>
+        <Box sx={{ marginTop: 4 }}>
+          <Typography variant="h6" gutterBottom>
+            Status Messages:
+          </Typography>
+          <Box sx={{ maxHeight: 200, overflowY: 'auto', backgroundColor: '#f5f5f5', padding: 2 }}>
+            {statusMessages.map((msg, index) => (
+              <Typography key={index} variant="body2" sx={{ marginBottom: 1 }}>
+                {msg}
+              </Typography>
+            ))}
+          </Box>
         </Box>
       </Paper>
     </Box>
