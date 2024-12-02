@@ -12,7 +12,7 @@ export default function VideoCard() {
   const localVideoRef = useRef(null);
   const remoteVideoRef = useRef(null);
 
-  const SOCKET_URL = 'ws://localhost:3001';
+  const SOCKET_URL = 'ws://localhost:3002';
 
   useEffect(() => {
     const socket = new WebSocket(SOCKET_URL);
@@ -149,9 +149,6 @@ export default function VideoCard() {
   return (
     <Box sx={{ padding: 4 }}>
       <Paper elevation={3} sx={{ padding: 4, maxWidth: '800px', margin: 'auto' }}>
-        <Typography variant="h4" gutterBottom align="center">
-          WebRTC Tutorial
-        </Typography>
         <Grid container spacing={2} justifyContent="center" alignItems="center">
           <Grid item xs={12} md={6}>
             <video
@@ -187,7 +184,7 @@ export default function VideoCard() {
           <Button variant="contained" color="primary" onClick={startConnection}>
             Start Connection
           </Button>
-          <Button variant="contained" color="secondary" onClick={createOffer}>
+          <Button variant="contained" color="success" onClick={createOffer}>
             Call
           </Button>
         </Box>
