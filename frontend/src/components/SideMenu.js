@@ -12,11 +12,14 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SensorsIcon from '@mui/icons-material/Sensors';
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
+import {Link, redirect, useNavigate} from 'react-router'
 
 
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
+    const navigate = useNavigate();
+
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
@@ -36,6 +39,25 @@ function ResponsiveDrawer(props) {
 //     }
 //   };
 
+const handleClick = (e, index) => {
+    // console.log(index, e);
+    e.preventDefault();
+    if(index === 0){
+        redirect('/why-websockets');
+        }
+    if(index === 1){
+        redirect('/what-is-ws');
+        }
+    if(index === 2){
+        // redirect('/ws');
+        console.log("hello")
+        navigate('/ws');
+        }
+    if(index === 3){
+        redirect('/ws-file-transfer');
+        }
+}
+
   const drawer = (
     <div>
       <Toolbar />
@@ -43,7 +65,8 @@ function ResponsiveDrawer(props) {
       <List>
         {['Why Websockets?', 'What is WS?', 'WS in Action', 'WS file transfer'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+                
+            <ListItemButton onClick={(e)=> handleClick(e, index)}>
               <ListItemIcon>
                 {(index === 0 || index === 1) && <QuestionMarkIcon />}
                 {index === 2 && <SensorsIcon />}

@@ -8,10 +8,13 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Button from '@mui/material/Button';
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
+import {Routes, Route} from 'react-router';
 
 import WebRTC from './components/WebRTC';
 import SideMenu from './components/SideMenu';
 import './App.css';
+import NavBar from './components/NavBar';
+import Home from './Home';
 
 function App() {
   const [ws, setWs] = useState(null);
@@ -33,6 +36,30 @@ function App() {
       setMsg(message.data);
     };
   };
+  const WS =() =>{
+    return (<>
+      <h1>WebSocket & WebRTC &nbsp; {connected && <ConnectWithoutContactIcon />}</h1>
+      <p>{msg}</p>
+      
+     {!connected ? <Button variant="contained" color="primary" onClick={handleConnect}>Connect to WS</Button> : <Button variant="contained" color="secondary" onClick={handleDisconnect}>Disconnect</Button>}
+  </>)
+  }
+
+    
+    // const handleConnect = (e) => {
+    //   e.preventDefault();
+    //   const ws = new WebSocket('ws://localhost:3001');
+    //   setWs(ws);
+    //   ws.onopen = () => {
+    //     console.log('connected');
+    //     setMsg('connected');
+    //     setConnected(true);
+    //   };
+    //   ws.onmessage = (message) => {
+    //     console.log('received: %s', message.data);
+    //     setMsg(message.data);
+    //   };
+    // }
 
   const handleDisconnect = (e) => {
     e.preventDefault();
@@ -50,63 +77,28 @@ function App() {
   const drawerWidth = 240;
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-          width: '100%',
-        }}
-      >
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            WebSocket & WebRTC App
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <SideMenu />
-      <Box
+    <>
+    <CssBaseline />
+    <NavBar sx={{
+        width: { sm: `calc(100% - ${drawerWidth}px)` },
+        ml: { sm: `${drawerWidth}px` },
+      }} />
+    <Box display='flex'>
+    <SideMenu />
+    <Box
         component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          mt: 8,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
-        <Tabs value={currentTab} onChange={handleTabChange} centered>
-          <Tab label="WebSocket" />
-          <Tab label="WebRTC" />
-        </Tabs>
-        {currentTab === 0 && (
-          <Box sx={{ mt: 4 }}>
-            <Typography variant="h4" gutterBottom>
-              WebSocket Interface {connected && <ConnectWithoutContactIcon />}
-            </Typography>
-            <Typography variant="body1">{msg}</Typography>
-            {!connected ? (
-              <Button variant="contained" color="primary" onClick={handleConnect}>
-                Connect to WebSocket
-              </Button>
-            ) : (
-              <Button variant="contained" color="secondary" onClick={handleDisconnect}>
-                Disconnect
-              </Button>
-            )}
-          </Box>
-        )}
-        {currentTab === 1 && (
-          <Box sx={{ mt: 4 }}>
-            <Typography variant="h4" gutterBottom align="center">
-              WebRTC Interface
-            </Typography>
-            <WebRTC />
-          </Box>
-        )}
+        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        >
+       <Routes>
+        <Route index element={<Home />} />
+        <Route path="/ws" element={<WS />} />
+        </Routes>       
       </Box>
-    </Box>
+      </Box>
+    </>
   );
 }
+
+
 
 export default App;
