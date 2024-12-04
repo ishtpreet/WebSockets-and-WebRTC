@@ -18,7 +18,7 @@ function App() {
 
   const handleConnect = (e) => {
     e.preventDefault();
-    const ws = new WebSocket('ws://localhost:3001');
+    const ws = new WebSocket(process.env.REACT_APP_WS_URI);
     setWs(ws);
     ws.onopen = () => {
       console.log('WebSocket connected');
