@@ -1,11 +1,6 @@
 import { useState } from 'react';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Button from '@mui/material/Button';
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import {Routes, Route} from 'react-router';
@@ -20,7 +15,6 @@ function App() {
   const [ws, setWs] = useState(null);
   const [msg, setMsg] = useState('');
   const [connected, setConnected] = useState(false);
-  const [currentTab, setCurrentTab] = useState(0);
 
   const handleConnect = (e) => {
     e.preventDefault();
@@ -70,10 +64,6 @@ function App() {
     setConnected(false);
   };
 
-  const handleTabChange = (event, newValue) => {
-    setCurrentTab(newValue);
-  };
-
   const drawerWidth = 240;
 
   return (
@@ -92,6 +82,7 @@ function App() {
        <Routes>
         <Route index element={<Home />} />
         <Route path="/ws" element={<WS />} />
+        <Route path="/webrtc" element={<WebRTC />} />
         </Routes>       
       </Box>
       </Box>

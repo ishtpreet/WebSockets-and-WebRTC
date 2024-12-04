@@ -12,7 +12,7 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SensorsIcon from '@mui/icons-material/Sensors';
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
-import {Link, redirect, useNavigate} from 'react-router'
+import {useNavigate} from 'react-router'
 
 
 const drawerWidth = 240;
@@ -39,23 +39,35 @@ function ResponsiveDrawer(props) {
 //     }
 //   };
 
-const handleClick = (e, index) => {
+const handleClick = (type ,e, index) => {
     // console.log(index, e);
     e.preventDefault();
+    if(type === 'ws'){
     if(index === 0){
-        redirect('/why-websockets');
+        navigate('/why-websockets');
         }
     if(index === 1){
-        redirect('/what-is-ws');
+        navigate('/what-is-ws');
         }
     if(index === 2){
-        // redirect('/ws');
-        console.log("hello")
         navigate('/ws');
         }
     if(index === 3){
-        redirect('/ws-file-transfer');
+        navigate('/ws-file-transfer');
         }
+      }
+      else if(type === 'webrtc'){
+        if(index === 0){
+            navigate('/why-webrtc');
+            }
+        if(index === 1){
+            navigate('/what-is-webrtc');
+            }
+        if(index === 2){
+            navigate('/webrtc');
+            }
+          }
+
 }
 
   const drawer = (
@@ -66,7 +78,7 @@ const handleClick = (e, index) => {
         {['Why Websockets?', 'What is WS?', 'WS in Action', 'WS file transfer'].map((text, index) => (
           <ListItem key={text} disablePadding>
                 
-            <ListItemButton onClick={(e)=> handleClick(e, index)}>
+            <ListItemButton onClick={(e)=> handleClick('ws', e, index)}>
               <ListItemIcon>
                 {(index === 0 || index === 1) && <QuestionMarkIcon />}
                 {index === 2 && <SensorsIcon />}
@@ -81,7 +93,7 @@ const handleClick = (e, index) => {
       <List>
         {['Why Web RTC?', 'What is Web RTC?', 'WebRTC in Action'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={(e) => handleClick('webrtc', e, index)}>
               <ListItemIcon>
               {(index === 0 || index === 1) && <QuestionMarkIcon />}
                 {index === 2 && <OndemandVideoIcon />}
