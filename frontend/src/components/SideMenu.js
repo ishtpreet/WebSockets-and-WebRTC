@@ -13,6 +13,7 @@ import SensorsIcon from '@mui/icons-material/Sensors';
 import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import {useNavigate} from 'react-router'
+import Typography from '@mui/material/Typography';
 
 
 const drawerWidth = 240;
@@ -72,7 +73,11 @@ const handleClick = (type ,e, index) => {
 
   const drawer = (
     <div>
-      <Toolbar />
+      <Toolbar>
+      <Typography variant="h6" noWrap component="div">
+            SER-598 Project on
+          </Typography>
+      </Toolbar>
       <Divider />
       <List>
         {['Why Websockets?', 'What is WS?', 'WS in Action', 'WS file transfer'].map((text, index) => (
