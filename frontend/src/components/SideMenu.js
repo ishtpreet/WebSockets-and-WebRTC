@@ -10,7 +10,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SensorsIcon from '@mui/icons-material/Sensors';
-import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
+// import ConnectWithoutContactIcon from '@mui/icons-material/ConnectWithoutContact';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import {useNavigate} from 'react-router'
 import Typography from '@mui/material/Typography';
@@ -45,7 +45,7 @@ const handleClick = (type ,e, index) => {
     e.preventDefault();
     if(type === 'ws'){
     if(index === 0){
-        navigate('/why-websockets');
+        navigate('/');
         }
     if(index === 1){
         navigate('/what-is-ws');
@@ -53,9 +53,9 @@ const handleClick = (type ,e, index) => {
     if(index === 2){
         navigate('/ws');
         }
-    if(index === 3){
-        navigate('/ws-file-transfer');
-        }
+    // if(index === 3){
+    //     navigate('/ws-file-transfer');
+    //     }
       }
       else if(type === 'webrtc'){
         if(index === 0){
@@ -80,14 +80,15 @@ const handleClick = (type ,e, index) => {
       </Toolbar>
       <Divider />
       <List>
-        {['Why Websockets?', 'What is WS?', 'WS in Action', 'WS file transfer'].map((text, index) => (
+        {/* TODO: WS File Transfer */}
+        {['Why Websockets?', 'What is WS?', 'WS in Action'].map((text, index) => (
           <ListItem key={text} disablePadding>
                 
             <ListItemButton onClick={(e)=> handleClick('ws', e, index)}>
               <ListItemIcon>
                 {(index === 0 || index === 1) && <QuestionMarkIcon />}
                 {index === 2 && <SensorsIcon />}
-                {index === 3 && <ConnectWithoutContactIcon />}
+                {/* {index === 3 && <ConnectWithoutContactIcon />} */}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
