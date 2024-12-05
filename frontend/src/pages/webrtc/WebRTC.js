@@ -12,7 +12,7 @@ export default function VideoCard() {
   const localVideoRef = useRef(null);
   const remoteVideoRef = useRef(null);
 
-  const SOCKET_URL = 'ws://localhost:3002';
+  const SOCKET_URL = `${process.env.REACT_APP_WS_URI}/webrtc`;
   const [statusMessages, setStatusMessages] = useState([]);
 
   const addStatusMessage = (message) => {

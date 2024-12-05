@@ -16,7 +16,7 @@ export default function WS() {
 
     const handleConnect = (e) => {
         e.preventDefault();
-        const ws = new WebSocket(process.env.REACT_APP_WS_URI);
+        const ws = new WebSocket(`${process.env.REACT_APP_WS_URI}/websocket`);
         setWs(ws);
         ws.onopen = () => {
           console.log('WebSocket connected');
