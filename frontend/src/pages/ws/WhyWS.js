@@ -50,6 +50,17 @@ export default function WhyWS() {
           that best suits their application requirements.
         </li>
       </p>
+      <h3>Browser Support</h3>
+      <p>
+        <li>
+          WebSockets are supported by most modern browsers including Chrome,
+          Firefox, Safari, and Edge.
+        </li>
+        <li>
+          This makes it easy to implement real time communication in web
+          applications without worrying about browser compatibility issues.
+        </li>
+      </p>
     </div>
   );
 }
