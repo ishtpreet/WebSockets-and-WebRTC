@@ -3,7 +3,26 @@ import React from "react";
 export default function WhyWS() {
   return (
     <div>
-      <h1>Why Do we Need WebSockets</h1>
+      <h1>History of Web-Socket and Web-RTC</h1>
+      <p>
+        WebSockets and WebRTC were introduced to address the growing need for
+        real-time communication on the web, overcoming limitations of
+        traditional HTTP and earlier technologies. WebSockets emerged as a
+        solution for enabling full-duplex, persistent communication between a
+        client and server, addressing inefficiencies like the high latency and
+        resource consumption of techniques such as polling and long polling.
+        Standardized in RFC 6455 in 2011, WebSockets opened the door for
+        applications like real-time chat, gaming, and stock updates. On the
+        other hand, WebRTC, introduced by Google in 2011, was designed to
+        facilitate peer-to-peer communication directly between browsers,
+        eliminating the need for plugins or intermediary servers. Leveraging
+        protocols like ICE, STUN, and TURN, WebRTC supports secure, low-latency
+        audio, video, and data sharing, ideal for applications such as video
+        conferencing and file sharing. Together, these technologies
+        revolutionized real-time interaction on the web, making it more
+        seamless, efficient, and scalable.
+      </p>
+      <h2>Why Do we Need WebSockets</h2>
       <h3>Efficient Real Time Communication</h3>
       <p>
         <li>
