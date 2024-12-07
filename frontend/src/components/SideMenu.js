@@ -12,9 +12,23 @@ import Typography from '@mui/material/Typography';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SensorsIcon from '@mui/icons-material/Sensors';
 import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
-import { useNavigate, useLocation} from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 
 const drawerWidth = 240;
+
+const menuItems = {
+    websocket: [
+        { label: 'Why Websockets?', path: '/', icon: <QuestionMarkIcon /> },
+        { label: 'What is WS?', path: '/what-is-ws', icon: <QuestionMarkIcon /> },
+        { label: 'WS in Action', path: '/ws', icon: <SensorsIcon /> },
+    ],
+    webrtc: [
+        { label: 'Why Web RTC?', path: '/why-webrtc', icon: <QuestionMarkIcon /> },
+        { label: 'What is Web RTC?', path: '/what-is-webrtc', icon: <QuestionMarkIcon /> },
+        { label: 'Make your own', path: '/webrtc-tutorial', icon: <OndemandVideoIcon /> },
+        { label: 'WebRTC in Action', path: '/webrtc', icon: <SensorsIcon /> },
+    ],
+};
 
 function SideMenu(props) {
     const navigate = useNavigate();
@@ -27,17 +41,9 @@ function SideMenu(props) {
         setMobileOpen(false);
     };
 
-    const handleClick = (type, e, index) => {
+    const handleNavigation = (path, e) => {
         e.preventDefault();
-        if (type === 'ws') {
-            if (index === 0) navigate('/');
-            if (index === 1) navigate('/what-is-ws');
-            if (index === 2) navigate('/ws');
-        } else if (type === 'webrtc') {
-            if (index === 0) navigate('/why-webrtc');
-            if (index === 1) navigate('/what-is-webrtc');
-            if (index === 2) navigate('/webrtc');
-        }
+        navigate(path);
     };
 
     const drawer = (
@@ -49,43 +55,31 @@ function SideMenu(props) {
             </Toolbar>
             <Divider />
             <List>
-                {['Why Websockets?', 'What is WS?', 'WS in Action'].map((text, index) => {
-                    const pathMap = ['/', '/what-is-ws', '/ws'];
-                    return (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton
-                                onClick={(e) => handleClick('ws', e, index)}
-                                selected={location.pathname === pathMap[index]} 
-                            >
-                                <ListItemIcon>
-                                    {(index === 0 || index === 1) && <QuestionMarkIcon />}
-                                    {index === 2 && <SensorsIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                    );
-                })}
+                {menuItems.websocket.map((item, index) => (
+                    <ListItem key={index} disablePadding>
+                        <ListItemButton
+                            onClick={(e) => handleNavigation(item.path, e)}
+                            selected={location.pathname === item.path}
+                        >
+                            <ListItemIcon>{item.icon}</ListItemIcon>
+                            <ListItemText primary={item.label} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
             </List>
             <Divider />
             <List>
-                {['Why Web RTC?', 'What is Web RTC?', 'WebRTC in Action'].map((text, index) => {
-                    const pathMap = ['/why-webrtc', '/what-is-webrtc', '/webrtc'];
-                    return (
-                        <ListItem key={text} disablePadding>
-                            <ListItemButton
-                                onClick={(e) => handleClick('webrtc', e, index)}
-                                selected={location.pathname === pathMap[index]} 
-                            >
-                                <ListItemIcon>
-                                    {(index === 0 || index === 1) && <QuestionMarkIcon />}
-                                    {index === 2 && <OndemandVideoIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItemButton>
-                        </ListItem>
-                    );
-                })}
+                {menuItems.webrtc.map((item, index) => (
+                    <ListItem key={index} disablePadding>
+                        <ListItemButton
+                            onClick={(e) => handleNavigation(item.path, e)}
+                            selected={location.pathname === item.path}
+                        >
+                            <ListItemIcon>{item.icon}</ListItemIcon>
+                            <ListItemText primary={item.label} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
             </List>
         </div>
     );
