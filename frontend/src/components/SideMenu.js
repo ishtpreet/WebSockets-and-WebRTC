@@ -20,6 +20,7 @@ const menuItems = {
     websocket: [
         { label: 'Why Websockets?', path: '/', icon: <QuestionMarkIcon /> },
         { label: 'What is WS?', path: '/what-is-ws', icon: <QuestionMarkIcon /> },
+        { label: 'Make your own', path: '/websocket-tutorial', icon: <OndemandVideoIcon /> },
         { label: 'WS in Action', path: '/ws', icon: <SensorsIcon /> },
     ],
     webrtc: [

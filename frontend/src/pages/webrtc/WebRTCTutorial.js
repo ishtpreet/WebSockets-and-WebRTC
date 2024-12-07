@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, Paper, Divider, Button, Grid } from '@mui/material';
+import { Box, Typography, Paper, Divider, Button } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const steps = [

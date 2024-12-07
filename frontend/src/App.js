@@ -13,7 +13,7 @@ import WS from './pages/ws/WS';
 import WhatisWebRTC from './pages/webrtc/WhatisWebRTC';
 import WhyWebRTC from './pages/webrtc/WhyWebRTC';
 import WebRTCTutorial from './pages/webrtc/WebRTCTutorial';
-import HowWS from './pages/ws/HowWS';
+import WebSocketTutorial from './pages/ws/WebSocketTutorial';
 
 function App() {
   const drawerWidth = 240;
@@ -36,7 +36,7 @@ function App() {
         <Route index element={<WhyWS />} />
         <Route path="/what-is-ws" element={<WhatIsWS />} />
         <Route path="/ws" element={<WS />} />
-        <Route path="/howws" element={<HowWS />} />
+        <Route path="/websocket-tutorial" element={<WebSocketTutorial />} />
         {/* WebRTC Path */}
         <Route path="/what-is-webrtc" element={<WhatisWebRTC />} />
         <Route path="/why-webrtc" element={<WhyWebRTC />} />
