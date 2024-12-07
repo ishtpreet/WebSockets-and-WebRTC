@@ -23,40 +23,20 @@ npm install
     `,
   },
   {
-    title: '3. Run the WebSocket Server',
-    description:
-      'Start the WebSocket server by running the following command. The server will send a random Chuck Norris joke to connected clients every 3 seconds.',
-    code: `
-node index.js
-    `,
-  },
-  {
-    title: '4. Open the Frontend App',
-    description:
-      'Open the `index.html` file from the `frontend` folder in your browser to connect to the WebSocket server and display the jokes.',
-    code: `
-# Example command to open the file
-open frontend/index.html
-    `,
-  },
-  {
-    title: '5. WebSocket Server Code',
+    title: '3. WebSocket Server Code',
     description:
       'Here is the WebSocket server code that sends random Chuck Norris jokes to connected clients.',
     code: `
-const WebSocket = require('ws');
-const fetch = require('node-fetch');
-
-const CHUCK_NORRIS_API = 'https://api.chucknorris.io/jokes/random';
-const PORT = 8080;
-
-const wss = new WebSocket.Server({ port: PORT }, () => {
+  const CHUCK_NORRIS_API = 'https://api.chucknorris.io/jokes/random';
+  const PORT = 8080;
+  
+  const wss = new WebSocket.Server({ port: PORT }, () => {
   console.log(\`WebSocket server running on ws://localhost:\${PORT}\`);
-});
-
-wss.on('connection', (ws) => {
+  });
+  
+  wss.on('connection', (ws) => {
   console.log('New client connected!');
-
+  
   const sendJoke = async () => {
     try {
       const response = await fetch(CHUCK_NORRIS_API);
@@ -66,87 +46,61 @@ wss.on('connection', (ws) => {
       console.error('Error fetching joke:', error);
     }
   };
-
+  
   const jokeInterval = setInterval(sendJoke, 3000);
-
+  
   ws.on('close', () => {
     console.log('Client disconnected.');
     clearInterval(jokeInterval);
   });
-});
+  });
     `,
   },
   {
-    title: '6. Frontend HTML and JavaScript Code',
+    title: '4. Run the WebSocket Server',
+    description:
+      'Start the WebSocket server by running the following command. The server will send a random Chuck Norris joke to connected clients every 3 seconds.',
+    code: `
+npm start
+    `,
+  },
+  {
+    title: '5. JavaScript Code',
     description:
       'Here is the code for the frontend application. It connects to the WebSocket server and displays the received jokes.',
     code: `
-<!-- index.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chuck Norris Jokes</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      text-align: center;
-      margin: 0;
-      padding: 20px;
-    }
-    #joke-box {
-      max-width: 600px;
-      margin: 20px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-      font-size: 24px;
-      color: #333;
-    }
-    p {
-      font-size: 18px;
-      color: #555;
-    }
-  </style>
-</head>
-<body>
-  <h1>Chuck Norris Jokes</h1>
-  <div id="joke-box">
-    <p id="joke">Waiting for jokes...</p>
-  </div>
-  <script>
     const WS_URL = 'ws://localhost:8080';
     const jokeElement = document.getElementById('joke');
-
+  
     const ws = new WebSocket(WS_URL);
-
+  
     ws.onopen = () => {
       console.log('Connected to WebSocket server');
     };
-
+  
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.joke) {
         jokeElement.textContent = data.joke;
       }
     };
-
+  
     ws.onclose = () => {
       console.log('Disconnected from WebSocket server');
     };
-
+  
     ws.onerror = (error) => {
       console.error('WebSocket error:', error);
     };
-  </script>
-</body>
-</html>
     `,
+  },
+  {
+    title: '6. Open the Frontend Application',
+    description:
+      'Open the `index.html` file from the `frontend` folder in your browser to connect to the WebSocket server and display the jokes.',
+    code: `
+    `,
+    image: '/ws-tutorial.png',
   },
 ];
 
@@ -199,7 +153,7 @@ function WebSocketTutorial() {
                   fontFamily: 'monospace',
                 }}
               >
-                <Button
+                {index !== 5 ? <><Button
                   variant="outlined"
                   size="small"
                   startIcon={<ContentCopyIcon />}
@@ -216,7 +170,11 @@ function WebSocketTutorial() {
                 </Button>
                 <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
                   {step.code}
-                </pre>
+                </pre></> : <img
+                src={step.image}
+                alt={`${step.title} illustration`}
+                style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+            />}
               </Box>
             </Box>
           ))}
