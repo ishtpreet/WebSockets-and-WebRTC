@@ -12,6 +12,7 @@ import WhatIsWS from './pages/ws/WhatIsWS';
 import WS from './pages/ws/WS';
 import WhatisWebRTC from './pages/webrtc/WhatisWebRTC';
 import WhyWebRTC from './pages/webrtc/WhyWebRTC';
+import WebRTCTutorial from './pages/webrtc/WebRTCTutorial';
 import HowWS from './pages/ws/HowWS';
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/what-is-webrtc" element={<WhatisWebRTC />} />
         <Route path="/why-webrtc" element={<WhyWebRTC />} />
         <Route path="/webrtc" element={<WebRTC />} />
+        <Route path="/webrtc-tutorial" element={<WebRTCTutorial />} />
         </Routes>       
       </Box>
       </Box>

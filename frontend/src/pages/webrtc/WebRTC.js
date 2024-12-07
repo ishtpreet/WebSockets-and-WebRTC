@@ -15,13 +15,11 @@ export default function VideoCard() {
   const SOCKET_URL = `${process.env.REACT_APP_WS_URI}/webrtc`;
   const [statusMessages, setStatusMessages] = useState([]);
 
-  // Function to add status messages
   const addStatusMessage = (message) => {
     setStatusMessages((prevMessages) => [...prevMessages, message]);
   };
 
   useEffect(() => {
-    // Initialize WebSocket connection
     const socket = new WebSocket(SOCKET_URL);
     signalingSocketRef.current = socket;
 
@@ -85,13 +83,12 @@ export default function VideoCard() {
       addStatusMessage('⚠️ WebSocket encountered an error.');
     };
 
-    // Clean up on component unmount
     return () => {
       socket.close();
     };
   }, []);
 
-  // Function to initialize PeerConnection
+  // init PeerConnection
   const initializePeerConnection = async () => {
     if (!peerConnectionRef.current) {
       peerConnectionRef.current = new RTCPeerConnection(servers);
@@ -140,7 +137,6 @@ export default function VideoCard() {
     }
   };
 
-  // Function to start connection (get media)
   const startConnection = async () => {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       alert('Your browser does not support WebRTC.');
@@ -165,7 +161,6 @@ export default function VideoCard() {
     }
   };
 
-  // Function to create and send offer
   const createOffer = async () => {
     if (
       peerConnectionRef.current &&
@@ -190,8 +185,6 @@ export default function VideoCard() {
   return (
     <Box sx={{ padding: 4 }}>
       <Paper elevation={3} sx={{ padding: 4, maxWidth: '800px', margin: 'auto' }}>
-        {/* Tutorial Description */}
-        {/* Tutorial Description */}
 <Box sx={{ marginBottom: 4 }}>
   <Typography variant="h5" gutterBottom>
     📚 WebRTC Tutorial: Establishing a Peer-to-Peer Connection
@@ -255,7 +248,6 @@ export default function VideoCard() {
           </Button>
         </Box>
 
-        {/* Status Messages */}
         <Box sx={{ marginTop: 4 }}>
           <Typography variant="h6" gutterBottom>
             📝 Status Messages:
