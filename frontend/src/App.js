@@ -29,7 +29,7 @@ function App() {
     <SideMenu />
     <Box
         component="main"
-        sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
+        sx={{ marginTop: '3%', flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
         >
        <Routes>
         {/* WebSockets Path -> root is whyWS */}
