@@ -1,6 +1,7 @@
-import React from 'react';
-import { Box, Typography, Paper, Divider, Button } from '@mui/material';
+import React, {useState} from 'react';
+import { Box, Typography, Paper, Divider, Button, Snackbar, Alert } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+
 
 const steps = [
   {
@@ -153,8 +154,19 @@ wss.on('connection', (ws) => {
 function WebSocketTutorial() {
     const handleCopy = (code) => {
       navigator.clipboard.writeText(code);
-      alert('Code copied to clipboard!');
+      setSnackbarMessage('Code copied to clipboard!');
+      setSnackbarOpen(true);
     };
+
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+
+    const handleSnackbarClose = (event, reason) => {
+      if (reason === 'clickaway') {
+          return;
+      }
+      setSnackbarOpen(false);
+  };
   
     return (
       <Box sx={{ padding: 4 }}>
@@ -214,6 +226,16 @@ function WebSocketTutorial() {
           💡 Tip: Try this code on your local environment by running the WebSocket server and opening the frontend in multiple browser tabs or devices to see the real-time jokes in action.
         </Typography>
         </Paper>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={3000}
+          onClose={handleSnackbarClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+          <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
+              {snackbarMessage}
+          </Alert>
+      </Snackbar>
       </Box>
     );
   }

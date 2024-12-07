@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Typography, Paper, Divider, Button } from '@mui/material';
+import React, {useState} from 'react';
+import { Box, Typography, Paper, Divider, Button, Snackbar, Alert } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 const steps = [
@@ -115,10 +115,22 @@ localStream.getTracks().forEach((track) => peerConnectionRef.current.addTrack(tr
 ];
 
 function WebRTCTutorial() {
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
     const handleCopy = (code) => {
       navigator.clipboard.writeText(code);
-      alert('Code copied to clipboard!');
+      setSnackbarMessage('Code copied to clipboard!');
+      setSnackbarOpen(true);
     };
+
+    const handleSnackbarClose = (event, reason) => {
+      if (reason === 'clickaway') {
+          return;
+      }
+      setSnackbarOpen(false);
+  };
   
     return (
       <Box sx={{ padding: 4 }}>
@@ -178,6 +190,16 @@ function WebRTCTutorial() {
             💡 Tip: Try this code on your local environment by setting up a signaling server and testing between two different devices.
           </Typography>
         </Paper>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={3000}
+          onClose={handleSnackbarClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+          <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
+              {snackbarMessage}
+          </Alert>
+      </Snackbar>
       </Box>
     );
   }
