@@ -42,7 +42,7 @@ function Navbar({ toggleDrawer }) {
                     <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" noWrap component="div">
-                    SER-598 Project
+                WebSocket & WebRTC
                 </Typography>
             </Toolbar>
         </AppBar>
