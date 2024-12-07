@@ -12,6 +12,7 @@ import WhatIsWS from './pages/ws/WhatIsWS';
 import WS from './pages/ws/WS';
 import WhatisWebRTC from './pages/webrtc/WhatisWebRTC';
 import WhyWebRTC from './pages/webrtc/WhyWebRTC';
+import HowWS from './pages/ws/HowWS';
 
 function App() {
   const drawerWidth = 240;
@@ -34,6 +35,7 @@ function App() {
         <Route index element={<WhyWS />} />
         <Route path="/what-is-ws" element={<WhatIsWS />} />
         <Route path="/ws" element={<WS />} />
+        <Route path="/howws" element={<HowWS />} />
         {/* WebRTC Path */}
         <Route path="/what-is-webrtc" element={<WhatisWebRTC />} />
         <Route path="/why-webrtc" element={<WhyWebRTC />} />

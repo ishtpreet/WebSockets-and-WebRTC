@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Button, Typography, Box, Grid, Paper } from '@mui/material';
+import { Button, Typography, Box, Grid, Paper, Divider } from '@mui/material';
 
 const servers = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
@@ -15,17 +15,19 @@ export default function VideoCard() {
   const SOCKET_URL = `${process.env.REACT_APP_WS_URI}/webrtc`;
   const [statusMessages, setStatusMessages] = useState([]);
 
+  // Function to add status messages
   const addStatusMessage = (message) => {
     setStatusMessages((prevMessages) => [...prevMessages, message]);
   };
 
   useEffect(() => {
+    // Initialize WebSocket connection
     const socket = new WebSocket(SOCKET_URL);
     signalingSocketRef.current = socket;
 
     socket.onopen = () => {
       console.log('WebSocket connected');
-      addStatusMessage('WebSocket connected');
+      addStatusMessage('🔗 WebSocket connected.');
     };
 
     socket.onmessage = async (event) => {
@@ -45,86 +47,104 @@ export default function VideoCard() {
             await initializePeerConnection();
           }
           await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(data));
+          addStatusMessage('📨 SDP offer received.');
           const answer = await peerConnectionRef.current.createAnswer();
           await peerConnectionRef.current.setLocalDescription(answer);
           signalingSocketRef.current.send(JSON.stringify(peerConnectionRef.current.localDescription));
-          addStatusMessage('SDP offer received and answer sent.');
+          addStatusMessage('📤 SDP answer created and sent.');
         } else if (data.type === 'answer') {
           if (!peerConnectionRef.current) {
             console.error('PeerConnection is not established yet.');
+            addStatusMessage('❌ Error: PeerConnection is not established yet.');
             return;
           }
           await peerConnectionRef.current.setRemoteDescription(new RTCSessionDescription(data));
-          addStatusMessage('SDP answer received.');
+          addStatusMessage('📥 SDP answer received and set.');
         } else if (data.type === 'candidate') {
           if (!peerConnectionRef.current) {
             console.error('PeerConnection is not established yet.');
+            addStatusMessage('❌ Error: PeerConnection is not established yet.');
             return;
           }
           await peerConnectionRef.current.addIceCandidate(new RTCIceCandidate(data.candidate));
-          addStatusMessage('ICE candidate received and added.');
+          addStatusMessage('🔗 ICE candidate received and added.');
         }
       } catch (error) {
         console.error('Error parsing WebSocket message:', error);
+        addStatusMessage('⚠️ Error parsing signaling message.');
       }
     };
 
     socket.onclose = () => {
       console.log('WebSocket closed');
-      addStatusMessage('WebSocket connection closed.');
+      addStatusMessage('🔌 WebSocket connection closed.');
     };
 
     socket.onerror = (error) => {
       console.error('WebSocket error:', error);
-      // addStatusMessage('WebSocket error.');
+      addStatusMessage('⚠️ WebSocket encountered an error.');
     };
 
+    // Clean up on component unmount
     return () => {
       socket.close();
     };
   }, []);
 
+  // Function to initialize PeerConnection
   const initializePeerConnection = async () => {
     if (!peerConnectionRef.current) {
       peerConnectionRef.current = new RTCPeerConnection(servers);
+      addStatusMessage('🛠️ PeerConnection initialized.');
 
+      // Handle ICE candidates
       peerConnectionRef.current.onicecandidate = (event) => {
         if (event.candidate && signalingSocketRef.current.readyState === WebSocket.OPEN) {
           signalingSocketRef.current.send(JSON.stringify({ type: 'candidate', candidate: event.candidate }));
-          addStatusMessage('ICE candidate sent.');
+          addStatusMessage('🔗 ICE candidate sent.');
         }
       };
 
+      // Handle remote stream
       const remoteStream = new MediaStream();
       setRemoteStream(remoteStream);
       remoteVideoRef.current.srcObject = remoteStream;
 
       peerConnectionRef.current.ontrack = (event) => {
         event.streams[0].getTracks().forEach((track) => remoteStream.addTrack(track));
+        addStatusMessage('🎥 Remote track added to remote stream.');
       };
 
+      // Handle connection state changes
       peerConnectionRef.current.onconnectionstatechange = () => {
+        const state = peerConnectionRef.current.connectionState;
+        console.log('ICE Connection State:', state);
+        addStatusMessage(`🔄 ICE Connection State: ${state}`);
+
         if (
-          peerConnectionRef.current.connectionState === 'disconnected' ||
-          peerConnectionRef.current.connectionState === 'failed' ||
-          peerConnectionRef.current.connectionState === 'closed'
+          state === 'disconnected' ||
+          state === 'failed' ||
+          state === 'closed'
         ) {
           console.log('Peer connection closed');
+          addStatusMessage('🔌 Peer connection closed.');
           signalingSocketRef.current.close();
-          addStatusMessage('Peer connection closed.');
         }
       };
 
+      // Add local tracks if already available
       if (localStream) {
         localStream.getTracks().forEach((track) => peerConnectionRef.current.addTrack(track, localStream));
-        addStatusMessage('Local tracks added to peer connection.');
+        addStatusMessage('🎬 Local tracks added to peer connection.');
       }
     }
   };
 
+  // Function to start connection (get media)
   const startConnection = async () => {
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       alert('Your browser does not support WebRTC.');
+      addStatusMessage('❌ Error: Browser does not support WebRTC.');
       return;
     }
 
@@ -132,19 +152,20 @@ export default function VideoCard() {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       setLocalStream(stream);
       localVideoRef.current.srcObject = stream;
-      addStatusMessage('Local media stream started.');
+      addStatusMessage('🎥 Local media stream started.');
 
       await initializePeerConnection();
 
       stream.getTracks().forEach((track) => peerConnectionRef.current.addTrack(track, stream));
-      addStatusMessage('Local tracks added to peer connection.');
+      addStatusMessage('🎬 Local tracks added to peer connection.');
     } catch (error) {
       console.error('Error accessing media devices:', error);
       alert('Could not access your camera/microphone. Please check permissions.');
-      addStatusMessage('Error accessing media devices.');
+      addStatusMessage('❌ Error accessing media devices.');
     }
   };
 
+  // Function to create and send offer
   const createOffer = async () => {
     if (
       peerConnectionRef.current &&
@@ -155,25 +176,50 @@ export default function VideoCard() {
         const offer = await peerConnectionRef.current.createOffer();
         await peerConnectionRef.current.setLocalDescription(offer);
         signalingSocketRef.current.send(JSON.stringify(peerConnectionRef.current.localDescription));
-        addStatusMessage('SDP offer created and sent.');
+        addStatusMessage('📤 SDP offer created and sent.');
       } catch (error) {
         console.error('Error creating offer:', error);
-        addStatusMessage('Error creating SDP offer.');
+        addStatusMessage('⚠️ Error creating SDP offer.');
       }
     } else {
       alert('WebSocket connection is not open or peer connection is not established.');
+      addStatusMessage('❌ Error: WebSocket not open or PeerConnection not established.');
     }
   };
 
   return (
     <Box sx={{ padding: 4 }}>
       <Paper elevation={3} sx={{ padding: 4, maxWidth: '800px', margin: 'auto' }}>
+        {/* Tutorial Description */}
+        {/* Tutorial Description */}
+<Box sx={{ marginBottom: 4 }}>
+  <Typography variant="h5" gutterBottom>
+    📚 WebRTC Tutorial: Establishing a Peer-to-Peer Connection
+  </Typography>
+  <Typography variant="body1" gutterBottom>
+    This tutorial guides you through establishing a real-time video connection between two peers using WebRTC. Follow the steps below and observe the status messages to understand each part of the connection process.
+  </Typography>
+  <Divider sx={{ marginY: 2 }} />
+  <Typography variant="h6" gutterBottom>
+    🔍 Steps:
+  </Typography>
+      <Typography variant="body1">
+        <strong>1. Start connection:</strong> Allow the application to access your camera and microphone to capture local media streams.
+      </Typography>
+      <Typography variant="body1">
+        <strong>2. Initiate Call:</strong> Create and send an SDP offer to the remote peer to start the peer-to-peer(P2P) connection.
+      </Typography>
+      <Typography variant="body1">
+        <strong>3. Stream Media:</strong> Once the connection is established, video streams are transmitted between local and remote peers.
+      </Typography>
+</Box>
         <Grid container spacing={2} justifyContent="center" alignItems="center">
           <Grid item xs={12} md={6}>
             <video
               ref={localVideoRef}
               autoPlay
               playsInline
+              muted
               style={{ width: '100%', borderRadius: '8px', border: '2px solid #1976d2' }}
             />
             <Typography variant="subtitle1" align="center" sx={{ marginTop: 1 }}>
@@ -192,6 +238,7 @@ export default function VideoCard() {
             </Typography>
           </Grid>
         </Grid>
+
         <Box
           sx={{
             display: 'flex',
@@ -201,22 +248,39 @@ export default function VideoCard() {
           }}
         >
           <Button variant="contained" color="primary" onClick={startConnection}>
-            Start Connection
+            ▶️ Start Connection
           </Button>
           <Button variant="contained" color="success" onClick={createOffer}>
-            Call
+            📞 Call
           </Button>
         </Box>
+
+        {/* Status Messages */}
         <Box sx={{ marginTop: 4 }}>
           <Typography variant="h6" gutterBottom>
-            Status Messages:
+            📝 Status Messages:
           </Typography>
-          <Box sx={{ maxHeight: 200, overflowY: 'auto', backgroundColor: '#f5f5f5', padding: 2 }}>
-            {statusMessages.map((msg, index) => (
-              <Typography key={index} variant="body2" sx={{ marginBottom: 1 }}>
-                {msg}
+          <Box
+            sx={{
+              maxHeight: 200,
+              overflowY: 'auto',
+              backgroundColor: '#f5f5f5',
+              padding: 2,
+              borderRadius: '4px',
+              border: '1px solid #ddd',
+            }}
+          >
+            {statusMessages.length === 0 ? (
+              <Typography variant="body2" color="textSecondary">
+                No status messages yet. Start the connection to begin.
               </Typography>
-            ))}
+            ) : (
+              statusMessages.map((msg, index) => (
+                <Typography key={index} variant="body2" sx={{ marginBottom: 1 }}>
+                  {msg}
+                </Typography>
+              ))
+            )}
           </Box>
         </Box>
       </Paper>

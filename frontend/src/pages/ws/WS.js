@@ -11,6 +11,10 @@ import Tab from '@mui/material/Tab';
 import TabPanel from '../../components/TabPanel';
 import Typography from '@mui/material/Typography';
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
+import TextField from '@mui/material/TextField';
+import HttpIcon from '@mui/icons-material/Http';
+import InputAdornment from '@mui/material/InputAdornment';
+
 
 export default function WS() {
 
@@ -120,20 +124,24 @@ export default function WS() {
 
 
     return (<>
-        <h1>WebSockets in Action &nbsp; {connected && <ConnectWithoutContactIcon />}</h1>
-        <h4>Step 1. Open Your Browser Dev Tools.</h4>
-        <h4>Step 2. Head over to Network Tab.</h4>
-        <h4>Step 3. (Optional) Clear the network requests.</h4>
+        <Typography variant='h2' gutterBottom>WebSockets in Action &nbsp; {connected && <ConnectWithoutContactIcon />}</Typography>
+        <Typography variant='h6'>Step 1. Open Your Browser Dev Tools.</Typography>
+        <Typography variant='h6'>Step 2. Head over to Network Tab.</Typography>
+        <Typography variant='h6' gutterBottom>Step 3. (Optional) Clear the network requests.</Typography>
         <Divider />
         <br />
         <Tabs value={value} onChange={handleChange} centered>
         <Tab label="Bitcoin Price" />
-        <Tab label="Random Chuck Norris Joke" />
+        <Tab label="Bring Your Own API" />
         </Tabs>
         <TabPanel value={value} index={0}>
         <Stack spacing={1}>
             <Paper>
-            <Typography variant="h6" gutterBottom>Without Using WebSocket, the client would have to poll the server for updates.</Typography>                
+            <Typography variant="body1" gutterBottom>
+            </Typography>
+            </Paper>
+            <Paper>
+            <Typography variant="body1" gutterBottom>Without WebSocket functionality, the client would need to poll the server regularly to retrieve updates.</Typography>                
             </Paper>
             {showPrice && <Paper sx={{
                 display: 'flex',
@@ -149,11 +157,11 @@ export default function WS() {
                 justifyContent: 'center',
                 }}
             >
-                <Button variant="contained" sx={{backgroundColor: '#FFB20F', color: '#000'}} onClick={getBitcoinPrice}><CurrencyBitcoinIcon />HTTP API</Button>
+                <Button variant="contained" sx={{backgroundColor: '#FFB20F', color: '#000'}} onClick={getBitcoinPrice}>Get <CurrencyBitcoinIcon />Price using HTTP API</Button>
             </Paper>
             <Divider />
             <Paper>
-            <Typography variant="h6" gutterBottom>Using WebSockets to communicate between the client and the server.</Typography>
+            <Typography variant="body1" gutterBottom>Using WebSockets enables seamless communication between the client and the server. This protocol establishes a persistent, full-duplex connection, allowing real-time data exchange without the overhead of repeated HTTP requests. This makes WebSockets particularly suitable for applications requiring live updates or continuous data streams, such as live price tracking or collaborative tools.</Typography>
             </Paper>
             {showPriceWS && <Paper sx={{
                 display: 'flex',
@@ -170,7 +178,7 @@ export default function WS() {
                 }}
             >
                 {/* FFEC51, F7931A */}
-               {!binanceConnected ? <Button variant="contained" sx={{backgroundColor: '#FFB20F', color: '#000'}} onClick={getBitcoinPriceWS}><CurrencyBitcoinIcon />WS</Button>
+               {!binanceConnected ? <Button variant="contained" sx={{backgroundColor: '#FFB20F', color: '#000'}} onClick={getBitcoinPriceWS}>Get <CurrencyBitcoinIcon /> Price Using WS</Button>
                : <Button variant="contained" color="warning" onClick={handleBinanceDisconnect}>Disconnect</Button> 
                }
             </Paper>
@@ -178,23 +186,50 @@ export default function WS() {
         </Stack>
         </TabPanel>
         <TabPanel value={value} index={1}>
-        <Stack spacing={2} divider={<Divider orientation="horizontal" flexItem />}>
+        <Stack spacing={2}>
             <Paper>
-                <Typography variant="h6" gutterBottom>Using WebSockets to communicate between the client and the server.</Typography>
-                <p>{data}</p>
-        
-        {!connected ? <Button variant="contained" color="primary" onClick={handleConnect}>Connect to WS</Button> : <Button variant="contained" color="secondary" onClick={handleDisconnect}>Disconnect</Button>}
+                <Typography variant="body1" gutterBottom>This example highlights the difference between HTTP API and WebSocket when fetching data, such as a random Chuck Norris joke or using your own API.
+                    </Typography>
             </Paper>
+                    <Paper>
+                    Try Your API: Test both methods with your own API:
+                    <TextField fullWidth slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <HttpIcon />
+              </InputAdornment>
+            ),
+          },
+        }}></TextField>
+                    </Paper>
+<Typography variant='body1' gutterBottom>
+
+HTTP API: The client sends repeated requests to fetch updated data. This increases network overhead and introduces delays.
+
+Use HTTP polling for regular updates.
+Set up WebSocket for real-time updates.
+Compare the two to observe how WebSockets reduce latency and overhead while delivering seamless real-time updates.</Typography>
+                <p>{data}</p>
+                
+        
+            <Paper 
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                }}
+            >
+        {!connected ? <Button variant="contained" color="primary" onClick={handleConnect}>Connect to WS</Button> : <Button variant="contained" color="secondary" onClick={handleDisconnect}>Disconnect</Button>}
+        </Paper>
             <Paper>
-                <Typography variant="h6" gutterBottom>Without Using WebSocket, the client would have to poll the server for updates.</Typography>
+                <Typography variant="body1" gutterBottom>WebSocket: Establishes a persistent connection, allowing the server to push updates (e.g., a new joke) in real-time without repeated requests.</Typography>
 
             </Paper>
             
         </Stack>
         </TabPanel>
 
-        
-       
        <Snackbar open={open} autoHideDuration={duration} onClose={handleClose}>
           <Alert
             onClose={handleClose}
