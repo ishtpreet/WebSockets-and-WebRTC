@@ -327,6 +327,39 @@ export default function WhatIsWS() {
             </a>
           </p>
         </Box>
+        <Box>
+          <Typography variant="h5" gutterBottom>
+            References
+          </Typography>
+          <li>
+            “What are WebSockets used for? | Key use cases and who uses them
+            today,” Ably Realtime, 2023.
+            <a href="https://ably.com/topic/what-are-websockets-used-for">
+              https://ably.com/topic/what-are-websockets-used-for
+            </a>
+          </li>
+          <li>
+            Adeyinka Adegbenro, “What is WebRTC? (Explanation, use cases, and
+            features),” Ably Realtime, Mar. 31, 2022.
+            <a href="https://ably.com/blog/what-is-webrtc">
+              https://ably.com/blog/what-is-webrtc
+            </a>
+          </li>
+          <li>
+            “What Is WebSocket? How Does It Work? | Gcore,” Gcore, Nov. 26,
+            2024.{" "}
+            <a href="https://gcore.com/learning/what-is-websocket/">
+              https://gcore.com/learning/what-is-websocket
+            </a>
+          </li>
+          <li>
+            M. E. Shacklett and S. Johnson, “WebRTC (Web Real-Time
+            Communications),” Search Unified Communications, 2021.
+            <a href="https://www.techtarget.com/searchunifiedcommunications/definition/WebRTC-Web-Real-Time-Communications">
+              https://www.techtarget.com/searchunifiedcommunications/definition/WebRTC-Web-Real-Time-Communications
+            </a>
+          </li>
+        </Box>
       </Paper>
     </Box>
   );

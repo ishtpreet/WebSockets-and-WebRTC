@@ -69,12 +69,12 @@ export default function WhyWS() {
               🧠 Analytical Component: Utility of WebSockets and WebRTC
             </Typography>
             <Typography variant="body1" gutterBottom>
-              WebSockets are an ideal solution for scenarios requiring
-              continuous, bidirectional communication between a client and a
-              server. Their utility lies in their ability to maintain persistent
-              connections, drastically reducing the overhead associated with
-              frequent HTTP requests. Examples of applications leveraging
-              WebSockets include:
+              In our opinion, WebSockets are an ideal solution for scenarios
+              requiring continuous, bidirectional communication between a client
+              and a server. Their utility lies in their ability to maintain
+              persistent connections, drastically reducing the overhead
+              associated with frequent HTTP requests. Examples of applications
+              leveraging WebSockets include:
             </Typography>
             <ul>
               <li>
