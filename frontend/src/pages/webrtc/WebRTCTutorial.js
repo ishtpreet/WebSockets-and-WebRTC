@@ -366,7 +366,7 @@ function WebRTCTutorial() {
                 borderRadius: "4px",
                 border: "1px solid #ddd",
                 position: "relative",
-                maxHeight: 250,
+                maxHeight: 580,
                 overflow: "auto",
                 fontFamily: "monospace",
               }}
