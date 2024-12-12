@@ -55,7 +55,7 @@ export default function WhatIsWS() {
 
         <Box>
           <Typography variant="h5" gutterBottom>
-            How Does Data Transmission Occur?
+            How Does Data Transmission Occur? [1]
           </Typography>
           <List>
             <ListItem>
@@ -130,6 +130,7 @@ export default function WhatIsWS() {
             src="https://assets.gcore.pro/blog_containerizing_prod/uploads/2023/10/what-is-websocket-1.png"
             alt="WebSocket"
           />
+          [3]
           <p>
             *Image taken from -
             <a href="https://gcore.com/learning/what-is-websocket/">Here</a>
@@ -143,7 +144,7 @@ export default function WhatIsWS() {
           <Typography variant="body1" gutterBottom>
             WebRTC is a connection type that enables direct data transfer
             between web browsers or clients. It includes the following
-            components:
+            components: [2]
           </Typography>
           <List>
             <ListItem>
@@ -320,6 +321,7 @@ export default function WhatIsWS() {
             src="https://www.techtarget.com/rms/onlineimages/how_webrtc_works-f.png"
             alt="WebRTC"
           />
+          [4]
           <p>
             *Image taken from -{" "}
             <a href="https://www.techtarget.com/searchunifiedcommunications/definition/WebRTC-Web-Real-Time-Communications">
@@ -332,28 +334,28 @@ export default function WhatIsWS() {
             References
           </Typography>
           <li>
-            “What are WebSockets used for? | Key use cases and who uses them
+            [1] “What are WebSockets used for? | Key use cases and who uses them
             today,” Ably Realtime, 2023.
             <a href="https://ably.com/topic/what-are-websockets-used-for">
               https://ably.com/topic/what-are-websockets-used-for
             </a>
           </li>
           <li>
-            Adeyinka Adegbenro, “What is WebRTC? (Explanation, use cases, and
-            features),” Ably Realtime, Mar. 31, 2022.
+            [2] Adeyinka Adegbenro, “What is WebRTC? (Explanation, use cases,
+            and features),” Ably Realtime, Mar. 31, 2022.
             <a href="https://ably.com/blog/what-is-webrtc">
               https://ably.com/blog/what-is-webrtc
             </a>
           </li>
           <li>
-            “What Is WebSocket? How Does It Work? | Gcore,” Gcore, Nov. 26,
+            [3] “What Is WebSocket? How Does It Work? | Gcore,” Gcore, Nov. 26,
             2024.{" "}
             <a href="https://gcore.com/learning/what-is-websocket/">
               https://gcore.com/learning/what-is-websocket
             </a>
           </li>
           <li>
-            M. E. Shacklett and S. Johnson, “WebRTC (Web Real-Time
+            [4] M. E. Shacklett and S. Johnson, “WebRTC (Web Real-Time
             Communications),” Search Unified Communications, 2021.
             <a href="https://www.techtarget.com/searchunifiedcommunications/definition/WebRTC-Web-Real-Time-Communications">
               https://www.techtarget.com/searchunifiedcommunications/definition/WebRTC-Web-Real-Time-Communications
