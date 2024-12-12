@@ -126,7 +126,7 @@ function WebSocketTutorial() {
       <Box sx={{ padding: 2 }}>
         <Paper elevation={3} sx={{ padding: 4, maxWidth: '1200px', margin: 'auto' }}>
         <Typography variant="h4" gutterBottom>
-          📚 WebSocket Tutorial: Build a Real-Time Chuck Norris Joke App
+          WebSocket Tutorial: Build a Real-Time Chuck Norris Joke App
         </Typography>
         <Typography variant="body1" gutterBottom>
           This tutorial provides a step-by-step guide to implement WebSocket in a simple HTML, CSS, and JavaScript application. Learn how to set up a WebSocket server and create a real-time joke application that fetches and displays Chuck Norris jokes every 3 seconds.

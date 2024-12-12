@@ -17,7 +17,7 @@ export default function Resources() {
         {/* Articles and Tutorials */}
         <Box>
           <Typography variant="h5" gutterBottom>
-            🔗 Articles and Tutorials
+            Articles and Tutorials
           </Typography>
           <List>
             <ListItem>
@@ -58,7 +58,7 @@ export default function Resources() {
         {/* Videos */}
         <Box>
           <Typography variant="h5" gutterBottom>
-            🎥 Videos
+            Videos
           </Typography>
           <List>
             <ListItem>
@@ -89,7 +89,7 @@ export default function Resources() {
         {/* Documentation */}
         <Box>
           <Typography variant="h5" gutterBottom>
-            📖 Official Documentation
+            Official Documentation
           </Typography>
           <List>
             <ListItem>
@@ -130,7 +130,7 @@ export default function Resources() {
         {/* Additional Tools */}
         <Box>
           <Typography variant="h5" gutterBottom>
-            🛠️ Tools and Utilities
+            Tools and Utilities
           </Typography>
           <List>
             <ListItem>

@@ -342,7 +342,7 @@ function WebRTCTutorial() {
         sx={{ padding: 4, maxWidth: "1200px", margin: "auto" }}
       >
         <Typography variant="h4" gutterBottom>
-          📚 WebRTC Tutorial: Build a Peer-to-Peer Video Application
+          WebRTC Tutorial: Build a Peer-to-Peer Video Application
         </Typography>
         <Typography variant="body1" gutterBottom>
           This tutorial provides a step-by-step guide to implement WebRTC in
