@@ -37,7 +37,7 @@ function App() {
        <Routes>
         {/* WebSockets Path -> root is whyWS */}
         <Route index element={<WhyWS />} />
-        <Route path="/what-is-ws" element={<WhatIsWS />} />
+        <Route path="/tech-explained" element={<WhatIsWS />} />
         <Route path="/ws" element={<WS />} />
         <Route path="/websocket-tutorial" element={<WebSocketTutorial />} />
         {/* WebRTC Path */}

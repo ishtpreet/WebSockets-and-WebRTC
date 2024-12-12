@@ -21,13 +21,13 @@ const drawerWidth = 240;
 const menuItems = {
   websocket: [
       { label: 'Why Websockets?', path: '/', icon: <HelpOutlineIcon /> },
-      { label: 'What is WS?', path: '/what-is-ws', icon: <InfoIcon /> },
+      { label: 'Tech Explained', path: '/tech-explained', icon: <InfoIcon /> },
       { label: 'Make your own', path: '/websocket-tutorial', icon: <BuildIcon /> },
       { label: 'WS in Action', path: '/ws', icon: <SensorsIcon /> },
   ],
   webrtc: [
-      { label: 'Why Web RTC?', path: '/why-webrtc', icon: <HelpOutlineIcon /> },
-      { label: 'What is Web RTC?', path: '/what-is-webrtc', icon: <InfoIcon /> },
+      // { label: 'Why Web RTC?', path: '/why-webrtc', icon: <HelpOutlineIcon /> },
+      // { label: 'What is Web RTC?', path: '/what-is-webrtc', icon: <InfoIcon /> },
       { label: 'Make your own', path: '/webrtc-tutorial', icon: <BuildIcon /> },
       { label: 'WebRTC in Action', path: '/webrtc', icon: <LiveTvIcon /> },
   ],
