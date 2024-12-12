@@ -35,12 +35,7 @@ function SideMenu(props) {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { window } = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-
-    const handleDrawerClose = () => {
-        setMobileOpen(false);
-    };
+    const { window, isMobile, setOpen } = props;
 
     const handleNavigation = (path, e) => {
         e.preventDefault();
@@ -96,8 +91,8 @@ function SideMenu(props) {
             <Drawer
                 container={container}
                 variant="temporary"
-                open={mobileOpen}
-                onClose={handleDrawerClose}
+                open={isMobile}
+                onClose={setOpen}
                 ModalProps={{
                     keepMounted: true,
                 }}
