@@ -16,7 +16,7 @@ import WebRTCTutorial from './pages/webrtc/WebRTCTutorial';
 import WebSocketTutorial from './pages/ws/WebSocketTutorial';
 
 function App() {
-  const drawerWidth = 240;
+  const drawerWidth = 310;
   const [open, setOpen] = useState(false);
 
   return (

@@ -16,19 +16,21 @@ import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SensorsIcon from '@mui/icons-material/Sensors';
 import { useNavigate, useLocation } from 'react-router';
 
-const drawerWidth = 240;
+const drawerWidth = 305;
 
 const menuItems = {
-  websocket: [
-      { label: 'Why Websockets?', path: '/', icon: <HelpOutlineIcon /> },
+  technologies: [
+      { label: 'Why WebSockets & WebRTC', path: '/', icon: <HelpOutlineIcon /> },
       { label: 'Tech Explained', path: '/tech-explained', icon: <InfoIcon /> },
-      { label: 'Make your own', path: '/websocket-tutorial', icon: <BuildIcon /> },
+  ],
+  websocket: [
+      { label: 'WebSocket: Make your own', path: '/websocket-tutorial', icon: <BuildIcon /> },
       { label: 'WS in Action', path: '/ws', icon: <SensorsIcon /> },
   ],
   webrtc: [
       // { label: 'Why Web RTC?', path: '/why-webrtc', icon: <HelpOutlineIcon /> },
       // { label: 'What is Web RTC?', path: '/what-is-webrtc', icon: <InfoIcon /> },
-      { label: 'Make your own', path: '/webrtc-tutorial', icon: <BuildIcon /> },
+      { label: 'WebRTC: Make your own', path: '/webrtc-tutorial', icon: <BuildIcon /> },
       { label: 'WebRTC in Action', path: '/webrtc', icon: <LiveTvIcon /> },
   ],
 };
@@ -51,6 +53,20 @@ function SideMenu(props) {
                     SER-598 Project on
                 </Typography>
             </Toolbar>
+            <Divider />
+            <List>
+                {menuItems.technologies.map((item, index) => (
+                    <ListItem key={index} disablePadding>
+                        <ListItemButton
+                            onClick={(e) => handleNavigation(item.path, e)}
+                            selected={location.pathname === item.path}
+                        >
+                            <ListItemIcon>{item.icon}</ListItemIcon>
+                            <ListItemText primary={item.label} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
             <Divider />
             <List>
                 {menuItems.websocket.map((item, index) => (
