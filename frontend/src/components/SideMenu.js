@@ -14,6 +14,8 @@ import BuildIcon from '@mui/icons-material/Build';
 import LiveTvIcon from '@mui/icons-material/LiveTv';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SensorsIcon from '@mui/icons-material/Sensors';
+import StickyNote2Icon from '@mui/icons-material/StickyNote2';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import { useNavigate, useLocation } from 'react-router';
 
 const drawerWidth = 305;
@@ -22,6 +24,7 @@ const menuItems = {
   technologies: [
       { label: 'Why WebSockets & WebRTC', path: '/', icon: <HelpOutlineIcon /> },
       { label: 'Tech Explained', path: '/tech-explained', icon: <InfoIcon /> },
+      { label: 'Learning Outcomes', path: '/learning-outcomes', icon: <StickyNote2Icon /> },
   ],
   websocket: [
       { label: 'WebSocket: Make your own', path: '/websocket-tutorial', icon: <BuildIcon /> },
@@ -32,6 +35,9 @@ const menuItems = {
       // { label: 'What is Web RTC?', path: '/what-is-webrtc', icon: <InfoIcon /> },
       { label: 'WebRTC: Make your own', path: '/webrtc-tutorial', icon: <BuildIcon /> },
       { label: 'WebRTC in Action', path: '/webrtc', icon: <LiveTvIcon /> },
+  ],
+  resources: [
+      { label: 'Resources', path: '/resources', icon: <MenuBookIcon /> },
   ],
 };
 
@@ -84,6 +90,20 @@ function SideMenu(props) {
             <Divider />
             <List>
                 {menuItems.webrtc.map((item, index) => (
+                    <ListItem key={index} disablePadding>
+                        <ListItemButton
+                            onClick={(e) => handleNavigation(item.path, e)}
+                            selected={location.pathname === item.path}
+                        >
+                            <ListItemIcon>{item.icon}</ListItemIcon>
+                            <ListItemText primary={item.label} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
+            </List>
+            <Divider />
+            <List>
+                {menuItems.resources.map((item, index) => (
                     <ListItem key={index} disablePadding>
                         <ListItemButton
                             onClick={(e) => handleNavigation(item.path, e)}

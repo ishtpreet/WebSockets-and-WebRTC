@@ -14,6 +14,8 @@ import WhatisWebRTC from './pages/webrtc/WhatisWebRTC';
 import WhyWebRTC from './pages/webrtc/WhyWebRTC';
 import WebRTCTutorial from './pages/webrtc/WebRTCTutorial';
 import WebSocketTutorial from './pages/ws/WebSocketTutorial';
+import LearningOutcome from './pages/LearningOutcomes';
+import Resources from './pages/Resources';
 
 function App() {
   const drawerWidth = 310;
@@ -45,6 +47,9 @@ function App() {
         <Route path="/why-webrtc" element={<WhyWebRTC />} />
         <Route path="/webrtc" element={<WebRTC />} />
         <Route path="/webrtc-tutorial" element={<WebRTCTutorial />} />
+        {/* Extra Links */}
+        <Route path="/learning-outcomes" element={<LearningOutcome />} />
+        <Route path="/resources" element={<Resources />} />
         </Routes>       
       </Box>
       </Box>
