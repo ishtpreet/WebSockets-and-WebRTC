@@ -133,8 +133,8 @@ function WebRTCTutorial() {
   };
   
     return (
-      <Box sx={{ padding: 4 }}>
-        <Paper elevation={3} sx={{ padding: 4, maxWidth: '800px', margin: 'auto' }}>
+      <Box sx={{ padding: 2 }}>
+        <Paper elevation={3} sx={{ padding: 4, maxWidth: '1200px', margin: 'auto' }}>
           <Typography variant="h4" gutterBottom>
             📚 WebRTC Tutorial: Build a Peer-to-Peer Video Application
           </Typography>
