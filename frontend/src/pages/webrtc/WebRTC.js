@@ -206,14 +206,17 @@ export default function VideoCard() {
       <Paper elevation={3} sx={{ padding: 4, maxWidth: '1200px', margin: 'auto' }}>
 <Box sx={{ marginBottom: 4 }}>
   <Typography variant="h5" gutterBottom>
-    📚 WebRTC Tutorial: Establishing a Peer-to-Peer Connection
+    WebRTC Tutorial: Establishing a Peer-to-Peer Connection
   </Typography>
   <Typography variant="body1" gutterBottom>
     This tutorial guides you through establishing a real-time video connection between two peers using WebRTC. Follow the steps below and observe the status messages to understand each part of the connection process.
   </Typography>
+  <Typography variant="subtitle2" gutterBottom>
+    <strong>Note:</strong> Make sure the two devices are on the same network. Also, ASU Network may block the connection and this won't work on ASU Network.
+  </Typography>
   <Divider sx={{ marginY: 2 }} />
   <Typography variant="h6" gutterBottom>
-    🔍 Steps:
+    Steps:
   </Typography>
       <Typography variant="body1">
         <strong>1. Start connection:</strong> Allow the application to access your camera and microphone to capture local media streams.
@@ -271,7 +274,7 @@ export default function VideoCard() {
 
         <Box sx={{ marginTop: 4 }}>
           <Typography variant="h6" gutterBottom>
-            📝 Status Messages:
+            Status Messages:
           </Typography>
           <Box
             sx={{

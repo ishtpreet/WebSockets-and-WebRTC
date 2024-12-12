@@ -122,7 +122,7 @@ export default function WS() {
         <Box sx={{ padding: 2 }}>
     <Paper elevation={3} sx={{ padding: 4, maxWidth: '1200px', margin: 'auto' }}>
         <Typography variant="h4" gutterBottom>
-            📈 WebSocket In Action: Real-Time Bitcoin Price Tracker
+            WebSocket In Action: Real-Time Bitcoin Price Tracker
         </Typography>
         <Typography variant="body1" gutterBottom>
             See how WebSockets enable live data updates without the need for repeated API calls, offering a more efficient and seamless communication experience.

@@ -18,7 +18,7 @@ export default function WhatIsWS() {
       >
         {/* Header */}
         <Typography variant="h4" gutterBottom>
-          🔍 How Does This Technology Work?
+          How Does WebSocket Technology Work?
         </Typography>
         <Divider sx={{ my: 3 }} />
 

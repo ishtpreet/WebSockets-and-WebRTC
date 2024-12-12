@@ -7,7 +7,7 @@ export default function LearningOutcomes() {
       <Paper elevation={3} sx={{ padding: 4, maxWidth: '1200px', margin: 'auto' }}>
         {/* Header */}
         <Typography variant="h4" gutterBottom>
-          🎓 Learning Outcomes
+          Learning Outcomes
         </Typography>
         <Typography variant="body1" gutterBottom>
           By the end of this tutorial, learners will have acquired comprehensive knowledge and practical skills to understand, analyze, and implement real-time communication technologies effectively.
