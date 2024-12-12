@@ -188,7 +188,7 @@ export default function VideoCard() {
     }
   };
 
-  const disconnet = () => {
+  const disconnect = () => {
     setConnected(false);
     // localStream.getTracks().forEach((track) => track.stop());
     localVideoRef && localVideoRef.current && localVideoRef.current.srcObject && localVideoRef.current.srcObject.getTracks().forEach((track) => track.stop());
@@ -222,14 +222,18 @@ export default function VideoCard() {
         <strong>1. Click on Start connection:</strong> Allow the application to access your camera and microphone to capture local media streams.
       </Typography>
       <Typography variant="body1">
-        <strong>2. Duplicate browser tab - Click on Start connection:</strong> Allow the application to access your camera and microphone to capture local media streams.
+        <strong>2. Duplicate browser tab or use another device - Click on Start connection:</strong> If you're using our deployed URL, you can take advantage of using another device
+         (like a phone) as the second peer, otherwise just open a 2nd browser tab on the same device to <a href="http://localhost:3000/webrtc" target="_blank">localhost:3000/webrtc</a> . 
+         On the second device or tab, click on Start connection to allow the application to access the camera and microphone.
       </Typography>
       <Typography variant="body1">
-        <strong>3. On any of the 2  browser tabs - Click Call:</strong> Create and send an SDP offer to the remote peer to start the peer-to-peer(P2P) connection.
+        <strong>3. On any of the 2 peers(browser tabs or devices) - Click Call:</strong> Create and send an SDP offer to the remote peer to start the peer-to-peer(P2P) connection.
       </Typography>
-      {/* <Typography variant="body1">
-        <strong>3. Stream Media:</strong> Once the connection is established, video streams are transmitted between local and remote peers.
-      </Typography> */}
+      <br /><br />
+      <Typography variant="body1">
+This below interface displays <b>two video streams</b>: one is the local video stream captured from your device's camera, 
+and the other is the remote video stream received from the connected peer.
+      </Typography>
 </Box>
         <Grid container spacing={2} justifyContent="center" alignItems="center">
           <Grid item xs={12} md={6}>
@@ -265,11 +269,9 @@ export default function VideoCard() {
             marginTop: 4,
           }}
         >
-          {!connected ? <Button variant="contained" color="primary" onClick={startConnection}>
+          <Button variant="contained" color="primary" onClick={startConnection}>
             <PlayCircleOutlineIcon /> &nbsp;Start Connection
-          </Button>: <Button variant="contained" color="error" onClick={disconnet}>
-            <HighlightOffIcon /> &nbsp;Stop Connection
-          </Button>}
+          </Button>
           <Button variant="contained" color="success" onClick={createOffer}>
             📞 Call
           </Button>

@@ -311,10 +311,15 @@ async function handleRemoteCandidate(candidate) {
   {
     title: "Open the Frontend Application",
     description:
-      "Open the `index.html` file from the `frontend` folder in your browser to connect to the WebRTC server.(Scroll down to see the image)",
+      "Open the `index.html` file from the `frontend` folder in your browser to connect to the WebRTC server. Duplicate this browser tab as well - so you have 2 peers.(Scroll down to see the image)",
     code: `
     `,
     image: "/webrtc-tutorial.png",
+  },
+  {
+    title: "Test the WebRTC connection",
+    description:
+    "On the first peer(current browser tab), click on 'Start Connection', then open the duplicated tab (2nd peer), click on 'Start Connection' and then 'Call'. You should see the video stream from the first peer on the second peer's screen.",
   },
 ];
 
@@ -352,56 +357,70 @@ function WebRTCTutorial() {
         <Divider sx={{ my: 3 }} />
 
         {steps.map((step, index) => (
-          <Box key={index} sx={{ marginBottom: 4 }}>
-            <Typography variant="h5" gutterBottom>
-              {index+1}. {step.title}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              {step.description}
-            </Typography>
-            <Box
+  <Box key={index} sx={{ marginBottom: 4 }}>
+    <Typography variant="h5" gutterBottom>
+      {index + 1}. {step.title}
+    </Typography>
+    <Typography variant="body1" gutterBottom>
+      {step.description}
+    </Typography>
+    {step.code || step.image ? (
+      <Box
+        sx={{
+          backgroundColor: step.code ? "#f5f5f5" : "transparent",
+          padding: step.code ? 2 : 0,
+          borderRadius: step.code ? "4px" : "none",
+          border: step.code ? "1px solid #ddd" : "none",
+          position: "relative",
+          maxHeight: 580,
+          overflow: "auto",
+          fontFamily: "monospace",
+        }}
+      >
+        {step.code && (
+          <>
+            <Button
+              variant="outlined"
+              size="small"
+              startIcon={<ContentCopyIcon />}
+              onClick={() => handleCopy(step.code)}
               sx={{
-                backgroundColor: "#f5f5f5",
-                padding: 2,
-                borderRadius: "4px",
-                border: "1px solid #ddd",
-                position: "relative",
-                maxHeight: 580,
-                overflow: "auto",
-                fontFamily: "monospace",
+                position: "absolute",
+                top: 8,
+                right: 8,
+                zIndex: 10,
+                backgroundColor: "white",
               }}
             >
-              {index !== 11 ? 
-              <><Button
-                  variant="outlined"
-                  size="small"
-                  startIcon={<ContentCopyIcon />}
-                  onClick={() => handleCopy(step.code)}
-                  sx={{
-                    position: 'absolute',
-                    top: 8,
-                    right: 8,
-                    zIndex: 10,
-                    backgroundColor: 'white',
-                  }}
-                >
-                  Copy
-                </Button>
-                <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                  {step.code}
-                </pre></> : <img
-                src={step.image}
-                alt={`${step.title} illustration`}
-                style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
-            />}
-            </Box>
-          </Box>
-        ))}
+              Copy
+            </Button>
+            <pre style={{ margin: 0, whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+              {step.code}
+            </pre>
+          </>
+        )}
+        {step.image && (
+          <img
+            src={step.image}
+            alt={`${step.title} illustration`}
+            style={{
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain",
+              marginTop: step.code ? "1rem" : 0,
+            }}
+          />
+        )}
+      </Box>
+    ) : null}
+  </Box>
+))}
+
 
         <Divider sx={{ my: 3 }} />
         <Typography variant="body2" color="textSecondary">
           💡 Tip: Try this code on your local environment by setting up a
-          signaling server and testing between two different devices.
+          signaling server and testing between two different devices. After the video streams have been exchanged, try shutting down the signaling server and observe the behavior. - There is no change in the video stream as the WebRTC connection is now peer-to-peer.
         </Typography>
       </Paper>
       <Snackbar
