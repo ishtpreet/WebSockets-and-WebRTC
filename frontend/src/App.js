@@ -1,6 +1,6 @@
+import React, {useState} from 'react';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-
 import {Routes, Route} from 'react-router';
 
 import WebRTC from './pages/webrtc/WebRTC';
@@ -17,16 +17,19 @@ import WebSocketTutorial from './pages/ws/WebSocketTutorial';
 
 function App() {
   const drawerWidth = 240;
+  const [open, setOpen] = useState(false);
 
   return (
     <>
     <CssBaseline />
-    <NavBar sx={{
+    <NavBar 
+      toggleDrawer={() => setOpen(!open)}
+    sx={{
         width: { sm: `calc(100% - ${drawerWidth}px)` },
         ml: { sm: `${drawerWidth}px` },
       }} />
     <Box display='flex'>
-    <SideMenu />
+    <SideMenu isMobile={open} setOpen={setOpen}  />
     <Box
         component="main"
         sx={{ marginTop: '3%', flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
