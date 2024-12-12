@@ -34,7 +34,7 @@ export default function Resources() {
               <ListItemText
                 primary="Understanding WebRTC"
                 secondary={
-                  <Link href="https://webrtc.org/getting-started/" target="_blank" rel="noopener">
+                  <Link href="https://webrtc.org/getting-started/overview" target="_blank" rel="noopener">
                     WebRTC Official - Getting Started Guide
                   </Link>
                 }
@@ -65,8 +65,8 @@ export default function Resources() {
               <ListItemText
                 primary="What is WebSocket?"
                 secondary={
-                  <Link href="https://www.youtube.com/watch?v=8XId-9oFdzc" target="_blank" rel="noopener">
-                    YouTube - WebSocket Basics Explained
+                  <Link href="https://www.youtube.com/watch?v=xTR5OflgwgU" target="_blank" rel="noopener">
+                    YouTube - What are WebSockets? How is it different from HTTP?
                   </Link>
                 }
               />
@@ -147,8 +147,8 @@ export default function Resources() {
               <ListItemText
                 primary="WebRTC Debugging Tools"
                 secondary={
-                  <Link href="https://test.webrtc.org/" target="_blank" rel="noopener">
-                    WebRTC Troubleshooting and Test Page
+                  <Link href="https://cyara.com/blog/webrtc-api-trace/" target="_blank" rel="noopener">
+                    WebRTC Troubleshooting. The webrtc-internals API Trace
                   </Link>
                 }
               />
