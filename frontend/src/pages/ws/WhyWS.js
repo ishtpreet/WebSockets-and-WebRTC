@@ -22,63 +22,30 @@ export default function WhyWS() {
         revolutionized real-time interaction on the web, making it more
         seamless, efficient, and scalable.
       </p>
-      <h2>Why Do we Need WebSockets</h2>
-      <h3>Efficient Real Time Communication</h3>
+      <h3>Our Opinion</h3>
       <p>
-        <li>
-          Web Sockets provide a real time communication with <b>low latency</b>
-          by maintaining a persistent connection between the client and the
-          server.
-        </li>
-        <li>
-          Unlike our traditional HTTP requests, WebSockets do not require the
-          need to multiple hanshakes to establish a connection. This
-          significantly reduces the badwidth usage and its load on server.
-        </li>
+        We believe that websockets and webrtc are a good solution to the
+        problems arising from constant back and forth message requests.
+        Websockets are heavily used in places where there is a need of real time
+        data transfer, for example: in live chat application or a customer
+        support application. In these scenarios the connection is made via a
+        socket connection and in theory a socket connection can be kept open for
+        as long as we want. Websocket can also be used in other places like, it
+        is used in figma to show changes made my other users in real time. It
+        enables the collaboration feature in figma. Websockets are also used in
+        real time location sharing and are being implemented by compnies like
+        uber to share ride and riders locations. Other common place where web
+        sockets are being used is in score updates or live news feeds. It is
+        even used in getting people votes for various tasks. Some of the famous
+        companies that have implemented websockets are discord, slack, whatsapp
+        web, Twitch and Youtube live chat.
       </p>
-      <h3>Bi-Directional Communication</h3>
       <p>
-        <li>
-          WebSockets allow the server to send messages to the client without the
-          client requesting it. This is known as <b>server push</b>.
-        </li>
-        <li>
-          This is useful in scenarios where the server needs to send real time
-          updates to the client without the client requesting it.
-        </li>
-      </p>
-      <h3>Scalability</h3>
-      <p>
-        <li>
-          WebSockets are designed to be <b>scalable</b> and can handle a large
-          number of connections simultaneously.
-        </li>
-        <li>
-          This makes it ideal for applications that require real time
-          communication with a large number of clients.
-        </li>
-      </p>
-      <h3>Support for Multiple Protocols</h3>
-      <p>
-        <li>
-          WebSockets can be used with different protocols such as HTTP, HTTPS,
-          and WSS.
-        </li>
-        <li>
-          This makes it flexible and allows developers to choose the protocol
-          that best suits their application requirements.
-        </li>
-      </p>
-      <h3>Browser Support</h3>
-      <p>
-        <li>
-          WebSockets are supported by most modern browsers including Chrome,
-          Firefox, Safari, and Edge.
-        </li>
-        <li>
-          This makes it easy to implement real time communication in web
-          applications without worrying about browser compatibility issues.
-        </li>
+        WebRTC is used in places where we need peer to peer connection. It is
+        primarily used in places where we need to exchange audio and video.
+        Companies that use webRTC are Skype, Google Meet, Microsoft Teams. Other
+        domain where WebRTC is used in IOT devices such as CCTV cameras. This is
+        also used in Google's Stadia to stream games.
       </p>
     </div>
   );
