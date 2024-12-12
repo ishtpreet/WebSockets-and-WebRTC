@@ -9,26 +9,28 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import InfoIcon from '@mui/icons-material/Info';
+import BuildIcon from '@mui/icons-material/Build';
+import LiveTvIcon from '@mui/icons-material/LiveTv';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import SensorsIcon from '@mui/icons-material/Sensors';
-import OndemandVideoIcon from '@mui/icons-material/OndemandVideo';
 import { useNavigate, useLocation } from 'react-router';
 
 const drawerWidth = 240;
 
 const menuItems = {
-    websocket: [
-        { label: 'Why Websockets?', path: '/', icon: <QuestionMarkIcon /> },
-        { label: 'What is WS?', path: '/what-is-ws', icon: <QuestionMarkIcon /> },
-        { label: 'Make your own', path: '/websocket-tutorial', icon: <OndemandVideoIcon /> },
-        { label: 'WS in Action', path: '/ws', icon: <SensorsIcon /> },
-    ],
-    webrtc: [
-        { label: 'Why Web RTC?', path: '/why-webrtc', icon: <QuestionMarkIcon /> },
-        { label: 'What is Web RTC?', path: '/what-is-webrtc', icon: <QuestionMarkIcon /> },
-        { label: 'Make your own', path: '/webrtc-tutorial', icon: <OndemandVideoIcon /> },
-        { label: 'WebRTC in Action', path: '/webrtc', icon: <SensorsIcon /> },
-    ],
+  websocket: [
+      { label: 'Why Websockets?', path: '/', icon: <HelpOutlineIcon /> },
+      { label: 'What is WS?', path: '/what-is-ws', icon: <InfoIcon /> },
+      { label: 'Make your own', path: '/websocket-tutorial', icon: <BuildIcon /> },
+      { label: 'WS in Action', path: '/ws', icon: <SensorsIcon /> },
+  ],
+  webrtc: [
+      { label: 'Why Web RTC?', path: '/why-webrtc', icon: <HelpOutlineIcon /> },
+      { label: 'What is Web RTC?', path: '/what-is-webrtc', icon: <InfoIcon /> },
+      { label: 'Make your own', path: '/webrtc-tutorial', icon: <BuildIcon /> },
+      { label: 'WebRTC in Action', path: '/webrtc', icon: <LiveTvIcon /> },
+  ],
 };
 
 function SideMenu(props) {
