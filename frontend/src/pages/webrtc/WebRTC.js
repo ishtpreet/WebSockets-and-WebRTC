@@ -206,7 +206,7 @@ export default function VideoCard() {
       <Paper elevation={3} sx={{ padding: 4, maxWidth: '1200px', margin: 'auto' }}>
 <Box sx={{ marginBottom: 4 }}>
   <Typography variant="h4" gutterBottom>
-    📚 WebRTC In Action: Establishing a Peer-to-Peer Connection
+    WebRTC In Action: Establishing a Peer-to-Peer Connection
   </Typography>
   <Typography variant="body1" gutterBottom>
     This tutorial guides you through establishing a real-time video connection between two peers using WebRTC. Follow the steps below and observe the status messages to understand each part of the connection process.
