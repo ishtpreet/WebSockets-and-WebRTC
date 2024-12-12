@@ -18,7 +18,7 @@ import LearningOutcome from './pages/LearningOutcomes';
 import Resources from './pages/Resources';
 
 function App() {
-  const drawerWidth = 310;
+  const drawerWidth = 330;
   const [open, setOpen] = useState(false);
 
   return (

@@ -205,8 +205,8 @@ export default function VideoCard() {
     <Box sx={{ padding: 2 }}>
       <Paper elevation={3} sx={{ padding: 4, maxWidth: '1200px', margin: 'auto' }}>
 <Box sx={{ marginBottom: 4 }}>
-  <Typography variant="h5" gutterBottom>
-    📚 WebRTC Tutorial: Establishing a Peer-to-Peer Connection
+  <Typography variant="h4" gutterBottom>
+    📚 WebRTC In Action: Establishing a Peer-to-Peer Connection
   </Typography>
   <Typography variant="body1" gutterBottom>
     This tutorial guides you through establishing a real-time video connection between two peers using WebRTC. Follow the steps below and observe the status messages to understand each part of the connection process.
@@ -216,14 +216,17 @@ export default function VideoCard() {
     🔍 Steps:
   </Typography>
       <Typography variant="body1">
-        <strong>1. Start connection:</strong> Allow the application to access your camera and microphone to capture local media streams.
+        <strong>1. Click on Start connection:</strong> Allow the application to access your camera and microphone to capture local media streams.
       </Typography>
       <Typography variant="body1">
-        <strong>2. Initiate Call:</strong> Create and send an SDP offer to the remote peer to start the peer-to-peer(P2P) connection.
+        <strong>2. Duplicate browser tab - Click on Start connection:</strong> Allow the application to access your camera and microphone to capture local media streams.
       </Typography>
       <Typography variant="body1">
+        <strong>3. On any of the 2  browser tabs - Click Call:</strong> Create and send an SDP offer to the remote peer to start the peer-to-peer(P2P) connection.
+      </Typography>
+      {/* <Typography variant="body1">
         <strong>3. Stream Media:</strong> Once the connection is established, video streams are transmitted between local and remote peers.
-      </Typography>
+      </Typography> */}
 </Box>
         <Grid container spacing={2} justifyContent="center" alignItems="center">
           <Grid item xs={12} md={6}>

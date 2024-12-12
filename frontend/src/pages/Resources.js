@@ -7,7 +7,7 @@ export default function Resources() {
       <Paper elevation={3} sx={{ padding: 4, maxWidth: '1200px', margin: 'auto' }}>
         {/* Header */}
         <Typography variant="h4" gutterBottom>
-          📚 Resources
+          📚 Learning Resources
         </Typography>
         <Typography variant="body1" gutterBottom>
           Explore a curated list of resources to deepen your understanding of WebSockets and WebRTC. These resources include articles, official documentation, tutorials, and videos to guide you through concepts, implementation, and advanced use cases.
