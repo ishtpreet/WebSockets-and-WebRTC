@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button, Typography, Box, Grid, Paper, Divider } from '@mui/material';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const servers = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
 
@@ -8,6 +10,7 @@ export default function VideoCard() {
   const peerConnectionRef = useRef(null);
   const [localStream, setLocalStream] = useState(null);
   const [remoteStream, setRemoteStream] = useState(null);
+  const [connected, setConnected] = useState(false);
 
   const localVideoRef = useRef(null);
   const remoteVideoRef = useRef(null);
@@ -145,19 +148,22 @@ export default function VideoCard() {
     }
 
     try {
+      setConnected(true);
       const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
       setLocalStream(stream);
       localVideoRef.current.srcObject = stream;
       addStatusMessage('🎥 Local media stream started.');
+
 
       await initializePeerConnection();
 
       stream.getTracks().forEach((track) => peerConnectionRef.current.addTrack(track, stream));
       addStatusMessage('🎬 Local tracks added to peer connection.');
     } catch (error) {
-      console.error('Error accessing media devices:', error);
-      alert('Could not access your camera/microphone. Please check permissions.');
+      // console.error('Error accessing media devices:', error);
+      // alert('Could not access your camera/microphone. Please check permissions.');
       addStatusMessage('❌ Error accessing media devices.');
+      // setConnected(false);
     }
   };
 
@@ -182,9 +188,22 @@ export default function VideoCard() {
     }
   };
 
+  const disconnet = () => {
+    setConnected(false);
+    // localStream.getTracks().forEach((track) => track.stop());
+    localVideoRef && localVideoRef.current && localVideoRef.current.srcObject && localVideoRef.current.srcObject.getTracks().forEach((track) => track.stop());
+    remoteStream && remoteStream.getTracks().forEach((track) => track.stop());
+    localStream && localStream.getTracks().forEach((track) => track.stop());
+    localVideoRef.current.srcObject = null;
+    peerConnectionRef.current.close();
+    signalingSocketRef.current.close();
+    addStatusMessage('🔌 Connection stopped.');
+    setLocalStream(null);
+  }
+
   return (
-    <Box sx={{ padding: 4 }}>
-      <Paper elevation={3} sx={{ padding: 4, maxWidth: '800px', margin: 'auto' }}>
+    <Box sx={{ padding: 2 }}>
+      <Paper elevation={3} sx={{ padding: 4, maxWidth: '1200px', margin: 'auto' }}>
 <Box sx={{ marginBottom: 4 }}>
   <Typography variant="h5" gutterBottom>
     📚 WebRTC Tutorial: Establishing a Peer-to-Peer Connection
@@ -240,9 +259,11 @@ export default function VideoCard() {
             marginTop: 4,
           }}
         >
-          <Button variant="contained" color="primary" onClick={startConnection}>
-            ▶️ Start Connection
-          </Button>
+          {!connected ? <Button variant="contained" color="primary" onClick={startConnection}>
+            <PlayCircleOutlineIcon /> &nbsp;Start Connection
+          </Button>: <Button variant="contained" color="error" onClick={disconnet}>
+            <HighlightOffIcon /> &nbsp;Stop Connection
+          </Button>}
           <Button variant="contained" color="success" onClick={createOffer}>
             📞 Call
           </Button>
