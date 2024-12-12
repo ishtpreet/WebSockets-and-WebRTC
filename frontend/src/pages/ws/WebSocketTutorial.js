@@ -123,8 +123,8 @@ function WebSocketTutorial() {
   };
   
     return (
-      <Box sx={{ padding: 4 }}>
-        <Paper elevation={3} sx={{ padding: 4, maxWidth: '800px', margin: 'auto' }}>
+      <Box sx={{ padding: 2 }}>
+        <Paper elevation={3} sx={{ padding: 4, maxWidth: '1200px', margin: 'auto' }}>
         <Typography variant="h4" gutterBottom>
           📚 WebSocket Tutorial: Build a Real-Time Chuck Norris Joke App
         </Typography>
@@ -144,11 +144,11 @@ function WebSocketTutorial() {
               <Box
                 sx={{
                   backgroundColor: '#f5f5f5',
-                  padding: 2,
+                  padding: 1,
                   borderRadius: '4px',
                   border: '1px solid #ddd',
                   position: 'relative',
-                  maxHeight: 250,
+                  maxHeight: 580,
                   overflow: 'auto',
                   fontFamily: 'monospace',
                 }}
