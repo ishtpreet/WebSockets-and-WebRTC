@@ -144,11 +144,11 @@ function WebSocketTutorial() {
               <Box
                 sx={{
                   backgroundColor: '#f5f5f5',
-                  padding: 2,
+                  padding: 1,
                   borderRadius: '4px',
                   border: '1px solid #ddd',
                   position: 'relative',
-                  maxHeight: 250,
+                  maxHeight: 580,
                   overflow: 'auto',
                   fontFamily: 'monospace',
                 }}
