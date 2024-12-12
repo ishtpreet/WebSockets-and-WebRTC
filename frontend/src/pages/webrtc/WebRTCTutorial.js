@@ -12,7 +12,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 
 const steps = [
   {
-    title: "1. Clone the Starter Repo",
+    title: "Clone the Starter Repo",
     description:
       "Start by cloning the GitHub starter repository to your local machine. This repo contains the basic setup for the WebRTC signaling server and a simple HTML, CSS, and JavaScript frontend.",
     code: `
@@ -21,7 +21,7 @@ cd webrtc-starter
     `,
   },
   {
-    title: "2. Install Server Dependencies",
+    title: "Install Server Dependencies",
     description:
       "Navigate to the backend directory and install the required dependencies.",
     code: `
@@ -30,9 +30,49 @@ npm install
     `,
   },
   {
-    title: "3. Websocket frontend code - (a)",
+    title: 'WebRTC Server Code',
     description:
-      "To start with WebRTC, you need to complete your basic html file. We start with initializing the basic variables. Paste the code below in your html file at the start of your script tag.",
+      'Here is the WebRTC signaling server code that receives signaling messages and broadcasts them to other clients. Paste the below code in "backend/index.js"',
+    code: `
+  const port = 3001;
+  const server = new WebSocket.Server({ port });
+  const clients = new Set();
+
+  server.on('connection', (socket) => {
+    console.log('WebRTC Client connected');
+    clients.add(socket);
+
+    socket.on('message', (message) => {
+      console.log(\`Received WebRTC message: \${message}\`);
+
+      // Broadcast the signaling message to all "other" clients and not the one who initiated it
+      clients.forEach((client) => {
+        if (client !== socket && client.readyState === WebSocket.OPEN) {
+          client.send(message);
+        }
+      });
+    });
+
+    socket.on('close', () => {
+      clients.delete(socket);
+      console.log('WebRTC Client disconnected');
+    });
+  });
+
+  console.log(\`WebRTC signaling server running on ws://localhost:\${port}\`);    `,
+  },
+  {
+    title: 'Run the WebRTC Server',
+    description:
+      'Make sure you are in the backend/ directory, then start the WebRTC server by running the following command.',
+    code: `cd backend
+npm start
+    `,
+  },
+  {
+    title: "Websocket frontend code - (a)",
+    description:
+      "To start with WebRTC, you need to complete your basic html file. We start with initializing the basic variables. Paste the code below in your frontend/index.html file in your your 'script' tag.",
     code: `
 const SOCKET_URL = "ws://localhost:3001";
 const servers = {
@@ -48,7 +88,7 @@ let localStream = null;
 `,
   },
   {
-    title: "4. Websocket frontend code - (b)",
+    title: "Websocket frontend code - (b)",
     description:
       "Initializes the WebSocket connection for signaling. Sets up event handlers for connection, messages, and closure. Paste the code below the corresponding comment for initWebSocket() .",
     code: `
@@ -88,7 +128,7 @@ function initWebSocket() {
 `,
   },
   {
-    title: "5. Websocket frontend code - (c)",
+    title: "Websocket frontend code - (c)",
     description:
       "Initiates the local media stream by accessing user's camera and microphone. Connects to the WebSocket if not already connected. Paste the code below the corresponding comment for startConnection()",
     code: `
@@ -112,7 +152,7 @@ async function startConnection() {
 `,
   },
   {
-    title: "6. Websocket frontend code - (d)",
+    title: "Websocket frontend code - (d)",
     description:
       "Creates a WebRTC offer to initiate a peer connection. Sets up local media tracks and ICE candidate handling. Paste the code below the corresponding comment for createOffer()",
     code: `
@@ -168,7 +208,7 @@ async function createOffer() {
 `,
   },
   {
-    title: "7. Websocket frontend code - (e)",
+    title: "Websocket frontend code - (e)",
     description:
       "Handles an incoming WebRTC offer from a remote peer. Creates a peer connection, sets remote description, and sends an answer. Paste the code below the corresponding comment for handleRemoteOffer()",
     code: `
@@ -223,7 +263,7 @@ async function handleRemoteOffer(offer) {
 `,
   },
   {
-    title: "8. Websocket frontend code - (f)",
+    title: "Websocket frontend code - (f)",
     description:
       "Handles an incoming WebRTC 'answer' from the remote peer. Sets the remote description to complete the peer connection setup. Paste the code below the corresponding comment for handleRemoteAnswer()",
     code: `
@@ -245,7 +285,7 @@ async function handleRemoteAnswer(answer) {
 `,
   },
   {
-    title: "9. Websocket frontend code - (g)",
+    title: "Websocket frontend code - (g)",
     description:
       "Handles incoming 'ICE candidates' from the remote peer. Adds candidates to the peer connection to establish the most efficient connection path. Paste the code below the corresponding comment for handleRemoteCandidate()",
     code: `
@@ -269,12 +309,12 @@ async function handleRemoteCandidate(candidate) {
 `,
   },
   {
-    title: "10. Open the Frontend Application",
+    title: "Open the Frontend Application",
     description:
-      "Open the `index.html` file from the `frontend` folder in your browser to connect to the WebRTC server.",
+      "Open the `index.html` file from the `frontend` folder in your browser to connect to the WebRTC server.(Scroll down to see the image)",
     code: `
     `,
-    image: "/ws-tutorial.png",
+    image: "/webrtc-tutorial.png",
   },
 ];
 
@@ -314,7 +354,7 @@ function WebRTCTutorial() {
         {steps.map((step, index) => (
           <Box key={index} sx={{ marginBottom: 4 }}>
             <Typography variant="h5" gutterBottom>
-              {step.title}
+              {index+1}. {step.title}
             </Typography>
             <Typography variant="body1" gutterBottom>
               {step.description}
@@ -331,30 +371,29 @@ function WebRTCTutorial() {
                 fontFamily: "monospace",
               }}
             >
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<ContentCopyIcon />}
-                onClick={() => handleCopy(step.code)}
-                sx={{
-                  position: "absolute",
-                  top: 8,
-                  right: 8,
-                  zIndex: 10,
-                  backgroundColor: "white",
-                }}
-              >
-                Copy
-              </Button>
-              <pre
-                style={{
-                  margin: 0,
-                  whiteSpace: "pre-wrap",
-                  wordBreak: "break-word",
-                }}
-              >
-                {step.code}
-              </pre>
+              {index !== 11 ? 
+              <><Button
+                  variant="outlined"
+                  size="small"
+                  startIcon={<ContentCopyIcon />}
+                  onClick={() => handleCopy(step.code)}
+                  sx={{
+                    position: 'absolute',
+                    top: 8,
+                    right: 8,
+                    zIndex: 10,
+                    backgroundColor: 'white',
+                  }}
+                >
+                  Copy
+                </Button>
+                <pre style={{ margin: 0, whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                  {step.code}
+                </pre></> : <img
+                src={step.image}
+                alt={`${step.title} illustration`}
+                style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+            />}
             </Box>
           </Box>
         ))}
