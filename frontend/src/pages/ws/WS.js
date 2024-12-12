@@ -132,7 +132,7 @@ export default function WS() {
         <br />
         <Tabs value={value} onChange={handleChange} centered>
         <Tab label="Bitcoin Price" />
-        <Tab label="Bring Your Own API" />
+        {/* <Tab label="Bring Your Own API" /> */}
         </Tabs>
         <TabPanel value={value} index={0}>
         <Stack spacing={1}>
